@@ -1,3 +1,10 @@
 [gd_scene format=3 uid="uid://dpg2itvj1mnub"]
 
+[ext_resource type="Script" uid="uid://dp3hhgt553i2x" path="res://Scripts/layer.gd" id="1_8rq27"]
+
 [node name="Layer" type="Node2D" unique_id=1372914077]
+script = ExtResource("1_8rq27")
+
+[node name="Shape" type="Polygon2D" parent="." unique_id=368439]
+
+[node name="Circuits" type="Node2D" parent="." unique_id=1895596458]
