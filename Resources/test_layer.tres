@@ -32,6 +32,6 @@ metadata/_custom_type_script = "uid://d3caukbg170et"
 
 [resource]
 script = ExtResource("2_s74q8")
-shape = Array[Vector2i]([Vector2i(0, 0), Vector2i(5, 0), Vector2i(5, 10), Vector2i(0, 10)])
+shape = Array[Vector2i]([Vector2i(0, 0), Vector2i(5, 0), Vector2i(5, 8), Vector2i(0, 8)])
 circuits = Array[ExtResource("1_q2bi3")]([SubResource("Resource_8rq27"), SubResource("Resource_do7cl")])
 metadata/_custom_type_script = "uid://blbxmua7tt4nf"
