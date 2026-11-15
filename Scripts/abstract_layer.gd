@@ -1,3 +1,5 @@
+## An abstract class that encompasses anything that can be considered a layer, including static
+## levels and, potentially, masks
 @abstract
 class_name AbstractLayer
 extends Node2D

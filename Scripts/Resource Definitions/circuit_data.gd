@@ -1,7 +1,8 @@
+## A simple class that contains the data for all segments of a particularly colored circuit on a 
+## layer. Rather than just embed this information in a layer, CircuitData has been extracted so 
+## that the LayerData resource's nested data can fully visible in the editor.
 class_name CircuitData 
 extends Resource
-# the purpose of these simple nested resources is so that it is simple to create layers in the 
-# editor, where every sub-element of the layer can be exported
 
 enum CircuitColor { RED, BLUE }
 

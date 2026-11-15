@@ -1,9 +1,15 @@
+## The basic building block of the layer puzzle, a shape with some set of wire segments inside
+## of it that can be connected. The script runs in the editor so that the layer data can be shown
+## without the game/scene running. TODO: Inherit from AbstractLayer (requires implementing abstract
+## functions). 
 @tool
 class_name Layer
 extends Node2D
 
+## The resource that stores the shape and contents of a layer
 @export var _data : LayerData
 
+## An array of segments that's populated using the data in _data
 var circuit_segments : Array[CircuitSegment] = []
 
 
