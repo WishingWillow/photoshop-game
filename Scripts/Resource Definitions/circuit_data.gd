@@ -8,3 +8,13 @@ enum CircuitColor { RED, BLUE }
 
 @export var color : CircuitColor
 @export var segments : Array[IntegerLine]
+
+
+## The resource can generate its own circuit segments for a requested object
+func create_segments(parent : Node2D) -> Array[CircuitSegment]:
+	var circuit_segments : Array[CircuitSegment] = []
+	for segment_data in segments:
+			var segment := CircuitSegment.new(segment_data, color)
+			circuit_segments.push_back(segment)
+			parent.add_child(segment)
+	return circuit_segments
