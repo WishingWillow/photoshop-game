@@ -5,25 +5,24 @@ class_name CircuitSegment
 extends Node2D
 
 var connected : bool = false
-var start_coord : Vector2i
-var end_coord : Vector2i
+var start_cap : CircuitCap
+var end_cap : CircuitCap
 
 var color : Color
 
 func _init(line_data : IntegerLine, color_in : CircuitData.CircuitColor) -> void:
 	var line := Line2D.new()
 	line.joint_mode = Line2D.LINE_JOINT_ROUND
-	line.width = Consts.WIRE_WIDTH
-	start_coord = line_data.points.front()
-	end_coord = line_data.points.back()
+	line.width = Consts.WIRE_WIDTH	
 	line.points= Util.scale_vec_array_to_unit_size(line_data.points)
+	
 	color = Consts.CircuitColors[color_in]
 	line.default_color = color
-	add_child(line)
 	
-
-func _draw() -> void:
-	# draw the endcaps on the wire segment to make the points where segments can connect to 
-	# each other easily identifiable.
-	draw_circle(Util.scale_vec_to_unit_size(start_coord), Consts.CAP_RADIUS, color)
-	draw_circle(Util.scale_vec_to_unit_size(end_coord), Consts.CAP_RADIUS, color)
+	start_cap = CircuitCap.new(line_data.points.front(), color_in)
+	end_cap = CircuitCap.new(line_data.points.back(), color_in)
+	
+	add_child(line)
+	add_child(start_cap)
+	add_child(end_cap)
+	

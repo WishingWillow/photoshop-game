@@ -2,7 +2,6 @@
 ## of it that can be connected. The script runs in the editor so that the layer data can be shown
 ## without the game/scene running. TODO: Inherit from AbstractLayer (requires implementing abstract
 ## functions). 
-@tool
 class_name Layer
 extends Node2D
 
@@ -23,3 +22,9 @@ func _parse_data() -> void:
 	$Shape.polygon = Util.scale_vec_array_to_unit_size(_data.shape)
 	for circuit_data : CircuitData in _data.circuits:
 		circuit_segments.append_array(circuit_data.create_segments(self))
+
+
+func set_level_position(pos : Vector2i) -> void:
+	for segment : CircuitSegment in circuit_segments:
+		segment.start_cap.set_level_position(pos)
+		segment.end_cap.set_level_position(pos)
