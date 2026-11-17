@@ -4,9 +4,8 @@
 class_name CircuitData 
 extends Resource
 
-enum CircuitColor { RED, BLUE }
 
-@export var color : CircuitColor
+@export var color : Consts.CircuitColor
 @export var segments : Array[IntegerLine]
 
 

@@ -7,11 +7,11 @@ extends Node2D
 
 ## A map of circuit color to the corresponding array of segments (the array is untyped because 
 ## nested static typing is not allowed)
-var circuit_segments : Dictionary[CircuitData.CircuitColor, Array]
+var circuit_segments : Dictionary[Consts.CircuitColor, Array]
 
 ## A map of cap position to all circuit segments (non-typed array of CircuitSegment)
 ## that are connected to that position
-var circuit_caps : Dictionary[CircuitData.CircuitColor, Array]
+var circuit_caps : Dictionary[Consts.CircuitColor, Array]
 
 class CapPair:
 	var start : CircuitCap
@@ -48,7 +48,7 @@ func _init_caps() -> void:
 		
 	# the first and last caps for each color are the level caps. create new copies so that the
 	# level segments are treated as "connected" to these caps
-	for color : CircuitData.CircuitColor in circuit_segments.keys():
+	for color : Consts.CircuitColor in circuit_segments.keys():
 		var start_cap := CircuitCap.copy(circuit_segments[color].front().start_cap)
 		var end_cap := CircuitCap.copy(circuit_segments[color].back().end_cap)
 		level_caps.append(CapPair.new(start_cap, end_cap))
@@ -58,14 +58,14 @@ func _init_caps() -> void:
 func get_all_segments() -> Array[CircuitSegment]:
 	var segments : Array[CircuitSegment] = []
 	return circuit_segments.keys().reduce(
-		func(accum_segments : Array[CircuitSegment], key : CircuitData.CircuitColor): 
+		func(accum_segments : Array[CircuitSegment], key : Consts.CircuitColor): 
 			accum_segments.append_array(circuit_segments[key]), segments)
 
 
 func get_all_caps() -> Array[CircuitCap]:
 	var caps : Array[CircuitCap] = []
 	return circuit_caps.keys().reduce(
-		func(accum_caps : Array[CircuitSegment], key : CircuitData.CircuitColor): 
+		func(accum_caps : Array[CircuitSegment], key : Consts.CircuitColor): 
 			accum_caps.append_array(circuit_segments[key]), caps)
 
 

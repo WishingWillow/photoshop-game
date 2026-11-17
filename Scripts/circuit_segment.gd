@@ -10,7 +10,7 @@ var end_cap : CircuitCap
 
 var color : Color
 
-func _init(line_data : IntegerLine, color_in : CircuitData.CircuitColor) -> void:
+func _init(line_data : IntegerLine, color_in : Consts.CircuitColor) -> void:
 	var line := Line2D.new()
 	line.joint_mode = Line2D.LINE_JOINT_ROUND
 	line.width = Consts.WIRE_WIDTH	

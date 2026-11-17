@@ -4,13 +4,13 @@ extends Node2D
 
 ## position local to its circuit segment/layer
 var layer_position : Vector2i
-var color : CircuitData.CircuitColor
+var color : Consts.CircuitColor
 
 ## position in a level (set from above)
 var level_position : Vector2i
 
 
-func _init(pos : Vector2i, col : CircuitData.CircuitColor) -> void:
+func _init(pos : Vector2i, col : Consts.CircuitColor) -> void:
 	layer_position = pos
 	color = col
 
