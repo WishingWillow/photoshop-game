@@ -16,6 +16,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2fwl4")
+metadata/_edit_use_anchors_ = true
 
 [node name="Background" type="ColorRect" parent="." unique_id=1185345327]
 z_index = -4096
@@ -26,77 +27,75 @@ offset_right = 1272.0
 offset_bottom = 684.0
 color = Color(0.17283279, 0.17283264, 0.17283267, 1)
 
-[node name="TopBar" type="PanelContainer" parent="." unique_id=1525575288]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1981810551]
 layout_mode = 1
-anchors_preset = 10
+anchors_preset = 15
 anchor_right = 1.0
-offset_bottom = 50.0
-grow_horizontal = 2
-
-[node name="TopBarContainer" type="HBoxContainer" parent="TopBar" unique_id=1029732258]
-layout_mode = 2
-
-[node name="Title" type="Label" parent="TopBar/TopBarContainer" unique_id=83093686]
-layout_mode = 2
-text = "Placeholder Title"
-
-[node name="Spacer" type="Control" parent="TopBar/TopBarContainer" unique_id=793718571]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="LevelMenu" type="OptionButton" parent="TopBar/TopBarContainer" unique_id=1824949726]
-layout_mode = 2
-
-[node name="ToolBar" type="PanelContainer" parent="." unique_id=1633675679]
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -274.0
-offset_bottom = -234.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ToolBarContainer" type="HBoxContainer" parent="ToolBar" unique_id=1210550459]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1922887927]
 layout_mode = 2
 
-[node name="MoveButton" type="Button" parent="ToolBar/ToolBarContainer" unique_id=783653079]
+[node name="TopBarContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1029732258]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/TopBarContainer" unique_id=83093686]
+layout_mode = 2
+text = "Placeholder Title"
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/TopBarContainer" unique_id=793718571]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LevelMenu" type="OptionButton" parent="MarginContainer/VBoxContainer/TopBarContainer" unique_id=1824949726]
+layout_mode = 2
+
+[node name="ToolBarContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1210550459]
+layout_mode = 2
+
+[node name="MoveButton" type="Button" parent="MarginContainer/VBoxContainer/ToolBarContainer" unique_id=783653079]
 layout_mode = 2
 icon = ExtResource("2_c7tqi")
 
-[node name="ScaleButton" type="Button" parent="ToolBar/ToolBarContainer" unique_id=1302577072]
+[node name="ScaleButton" type="Button" parent="MarginContainer/VBoxContainer/ToolBarContainer" unique_id=1302577072]
 layout_mode = 2
 icon = ExtResource("3_cbfhl")
 icon_alignment = 1
 
-[node name="RotateButton" type="Button" parent="ToolBar/ToolBarContainer" unique_id=1949795163]
+[node name="RotateButton" type="Button" parent="MarginContainer/VBoxContainer/ToolBarContainer" unique_id=1949795163]
 layout_mode = 2
 icon = ExtResource("4_4fiuh")
 icon_alignment = 1
 
-[node name="MirrorButton" type="Button" parent="ToolBar/ToolBarContainer" unique_id=1186211908]
+[node name="MirrorButton" type="Button" parent="MarginContainer/VBoxContainer/ToolBarContainer" unique_id=1186211908]
 layout_mode = 2
 icon = ExtResource("5_h81ot")
 icon_alignment = 1
 
-[node name="SliceButton" type="Button" parent="ToolBar/ToolBarContainer" unique_id=1272461265]
+[node name="SliceButton" type="Button" parent="MarginContainer/VBoxContainer/ToolBarContainer" unique_id=1272461265]
 layout_mode = 2
 icon = ExtResource("6_6rr40")
 icon_alignment = 1
 
-[node name="Spacer" type="Control" parent="ToolBar/ToolBarContainer" unique_id=1010003887]
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/ToolBarContainer" unique_id=1010003887]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="UndoButton" type="Button" parent="ToolBar/ToolBarContainer" unique_id=1586513702]
+[node name="UndoButton" type="Button" parent="MarginContainer/VBoxContainer/ToolBarContainer" unique_id=1586513702]
 layout_mode = 2
 icon = ExtResource("7_0w6e5")
 
-[node name="LayerBar" type="PanelContainer" parent="." unique_id=1113455521]
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_top = 90.0
-offset_right = 200.0
-grow_vertical = 2
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1098168033]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LayerBar" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=985352176]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LevelView" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1166282176]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.0
