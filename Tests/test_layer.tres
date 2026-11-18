@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="LayerData" format=3 uid="uid://b6v0p6trw37u7"]
+
+[ext_resource type="Script" uid="uid://d3caukbg170et" path="res://Scripts/Resource Definitions/circuit_data.gd" id="1_vwkvd"]
+[ext_resource type="Script" uid="uid://ciogh5wk1jw2j" path="res://Scripts/Resource Definitions/integer_line.gd" id="2_8quhe"]
+[ext_resource type="Script" uid="uid://blbxmua7tt4nf" path="res://Scripts/Resource Definitions/layer_data.gd" id="3_tacfw"]
+
+[sub_resource type="Resource" id="Resource_44lal"]
+script = ExtResource("2_8quhe")
+points = Array[Vector2i]([Vector2i(0, 1), Vector2i(3, 1)])
+metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
+
+[sub_resource type="Resource" id="Resource_8rq27"]
+script = ExtResource("1_vwkvd")
+segments = Array[ExtResource("2_8quhe")]([SubResource("Resource_44lal")])
+metadata/_custom_type_script = "uid://d3caukbg170et"
+
+[resource]
+script = ExtResource("3_tacfw")
+size = Vector2i(3, 2)
+circuits = Array[ExtResource("1_vwkvd")]([SubResource("Resource_8rq27")])
+metadata/_custom_type_script = "uid://blbxmua7tt4nf"

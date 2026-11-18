@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://bd03sltphuclv"]
+
+[ext_resource type="Script" uid="uid://jvawcp8u00m1" path="res://Tests/test.gd" id="1_t8wiq"]
+[ext_resource type="Script" uid="uid://dp3hhgt553i2x" path="res://Scripts/layer.gd" id="2_4kyye"]
+[ext_resource type="Resource" uid="uid://b6v0p6trw37u7" path="res://Tests/test_layer.tres" id="3_4kyye"]
+[ext_resource type="Script" uid="uid://dgcvil2fki4os" path="res://Scripts/level.gd" id="3_ot2dp"]
+[ext_resource type="Resource" uid="uid://dob2quqo7o6j1" path="res://Tests/test_level.tres" id="5_ot2dp"]
+
+[node name="test" type="Node2D" unique_id=2127906253]
+script = ExtResource("1_t8wiq")
+
+[node name="Layer" type="Node2D" parent="." unique_id=577652057]
+script = ExtResource("2_4kyye")
+_data = ExtResource("3_4kyye")
+metadata/_custom_type_script = "uid://dp3hhgt553i2x"
+
+[node name="Level" type="Node2D" parent="." unique_id=171202069]
+script = ExtResource("3_ot2dp")
+_data = ExtResource("5_ot2dp")
+metadata/_custom_type_script = "uid://dgcvil2fki4os"

@@ -8,6 +8,8 @@ var color : Consts.CircuitColor
 
 ## position in a level (set from above)
 var level_position : Vector2i
+## if a circuit cap is part of a segment, its sibling can be set by its segment
+var sibling : CircuitCap = null
 
 
 func _init(pos : Vector2i, col : Consts.CircuitColor) -> void:
@@ -16,9 +18,16 @@ func _init(pos : Vector2i, col : Consts.CircuitColor) -> void:
 
 
 static func copy(cap : CircuitCap) -> CircuitCap:
-	return new(cap.layer_position, cap.color)
-	
-	
+	var new_cap := new(cap.layer_position, cap.color)
+	new_cap.level_position = cap.level_position
+	return new_cap
+
+
+static func set_siblings(cap1 : CircuitCap, cap2 : CircuitCap) -> void:
+	cap1.sibling = cap2
+	cap2.sibling = cap1
+
+
 func _draw() -> void:
 	# draw the endcaps on the wire segment to make the points where segments can connect to 
 	# each other easily identifiable.

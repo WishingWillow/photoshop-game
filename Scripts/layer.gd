@@ -11,6 +11,8 @@ extends Node2D
 ## An array of segments that's populated using the data in _data
 var circuit_segments : Array[CircuitSegment] = []
 
+@onready var outline := Line2D.new()
+
 
 func _ready() -> void:
 	_parse_data()
@@ -19,12 +21,24 @@ func _ready() -> void:
 func _parse_data() -> void:
 	# all data needs to be scaled by the UNIT_SCALE, otherwise objects may only be a few pixels
 	# wide
-	$Shape.polygon = Util.scale_vec_array_to_unit_size(_data.shape)
+	var rect := Util.get_rectangle_vertices(_data.size)
+	outline.points = Util.scale_vec_array_to_unit_size(rect)
 	for circuit_data : CircuitData in _data.circuits:
 		circuit_segments.append_array(circuit_data.create_segments(self))
+	
+	#configure outline
+	Util.configure_line(outline)
+	outline.closed = true
+	outline.default_color = Color.DIM_GRAY
+	# make sure outline renders behind wires
+	outline.z_index = -1
+	add_child(outline)
 
 
 func set_level_position(pos : Vector2i) -> void:
+	# set position of node
+	position = Util.scale_vec_to_unit_size(pos)
+	#update level position of all caps
 	for segment : CircuitSegment in circuit_segments:
 		segment.start_cap.set_level_position(pos)
 		segment.end_cap.set_level_position(pos)

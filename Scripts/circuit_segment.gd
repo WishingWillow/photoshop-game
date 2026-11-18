@@ -8,19 +8,20 @@ var connected : bool = false
 var start_cap : CircuitCap
 var end_cap : CircuitCap
 
-var color : Color
+var color : Consts.CircuitColor
 
 func _init(line_data : IntegerLine, color_in : Consts.CircuitColor) -> void:
 	var line := Line2D.new()
-	line.joint_mode = Line2D.LINE_JOINT_ROUND
-	line.width = Consts.WIRE_WIDTH	
+	Util.configure_line(line)
 	line.points= Util.scale_vec_array_to_unit_size(line_data.points)
 	
-	color = Consts.CircuitColors[color_in]
-	line.default_color = color
+	color = color_in
+	line.default_color = Consts.CircuitColors[color]
 	
 	start_cap = CircuitCap.new(line_data.points.front(), color_in)
 	end_cap = CircuitCap.new(line_data.points.back(), color_in)
+	CircuitCap.set_siblings(start_cap, end_cap)
+	
 	
 	add_child(line)
 	add_child(start_cap)

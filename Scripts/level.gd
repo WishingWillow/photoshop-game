@@ -40,17 +40,17 @@ func _init_caps() -> void:
 	for segment : CircuitSegment in all_segments:
 		var start_cap := segment.start_cap
 		start_cap.set_level_position(Vector2i.ZERO)
-		circuit_caps[start_cap.color].append(start_cap)
+		circuit_caps.get_or_add(start_cap.color, []).append(start_cap)
 		
 		var end_cap := segment.end_cap
 		end_cap.set_level_position(Vector2i.ZERO)
-		circuit_caps[end_cap.color].append(end_cap)
+		circuit_caps.get_or_add(end_cap.color, []).append(end_cap)
 		
-	# the first and last caps for each color are the level caps. create new copies so that the
-	# level segments are treated as "connected" to these caps
+	# the first and last caps for each color are the level caps. create a copy of the start so the
+	# first level segment is treated as connected to it
 	for color : Consts.CircuitColor in circuit_segments.keys():
 		var start_cap := CircuitCap.copy(circuit_segments[color].front().start_cap)
-		var end_cap := CircuitCap.copy(circuit_segments[color].back().end_cap)
+		var end_cap := (circuit_segments[color].back() as CircuitSegment).end_cap
 		level_caps.append(CapPair.new(start_cap, end_cap))
 
 
@@ -59,14 +59,16 @@ func get_all_segments() -> Array[CircuitSegment]:
 	var segments : Array[CircuitSegment] = []
 	return circuit_segments.keys().reduce(
 		func(accum_segments : Array[CircuitSegment], key : Consts.CircuitColor): 
-			accum_segments.append_array(circuit_segments[key]), segments)
+			accum_segments.append_array(circuit_segments[key])
+			return accum_segments, segments)
 
 
 func get_all_caps() -> Array[CircuitCap]:
 	var caps : Array[CircuitCap] = []
 	return circuit_caps.keys().reduce(
 		func(accum_caps : Array[CircuitSegment], key : Consts.CircuitColor): 
-			accum_caps.append_array(circuit_segments[key]), caps)
+			accum_caps.append_array(circuit_segments[key])
+			return accum_caps, caps)
 
 
 ## Check each pair of level caps are connected
@@ -81,10 +83,31 @@ func check_complete() -> bool:
 ## Traverse the circuit to see if the start and end are connected to each other
 func caps_connected(start : CircuitCap, end : CircuitCap) -> bool:
 	# trivial cases
+	if start == null or end == null: return false
 	if start == end: return true
+	if start.sibling == end: return true
 	if not start.color == end.color: return false
 	
-	# Accumulate an array of all same-color caps that have the same level position as start
+	# accumulate an array of all same-color caps that have the same level position as start
 	var position_share : Array[CircuitCap] = []
-	# WIP: circuit_caps[start.color].reduce(func(position_share, cap): )
+	circuit_caps[start.color].reduce(func(cap_accum, cap): 
+		if cap.level_position == start.level_position: cap_accum.append(cap)
+		return cap_accum
+		, position_share)
+	
+	# iterate through the shared position caps and see if their sibling is connected to the end cap
+	for cap : CircuitCap in position_share:
+		if cap == start: continue
+		return caps_connected(cap.sibling, end)
+	
+	# end cap wasn't found, return false
 	return false
+
+
+## TODO: for now, layer addition is not reversible
+func add_layer(layer : Layer, pos : Vector2i) -> void:
+	for segment in layer.circuit_segments:
+		circuit_segments[segment.color].append(segment)
+		circuit_caps.get_or_add(segment.color, []).append(segment.start_cap)
+		circuit_caps[segment.color].append(segment.end_cap)
+	layer.set_level_position(pos)
