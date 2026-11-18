@@ -16,15 +16,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2fwl4")
-metadata/_edit_use_anchors_ = true
 
 [node name="Background" type="ColorRect" parent="." unique_id=1185345327]
 z_index = -4096
-layout_mode = 0
-offset_left = -37.0
-offset_top = -21.0
-offset_right = 1272.0
-offset_bottom = 684.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.17283279, 0.17283264, 0.17283267, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1981810551]
@@ -34,6 +34,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1922887927]
 layout_mode = 2
