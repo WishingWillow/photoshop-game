@@ -5,25 +5,28 @@ class_name CircuitSegment
 extends Node2D
 
 var connected : bool = false
-var start_coord : Vector2i
-var end_coord : Vector2i
+var start_cap : CircuitCap
+var end_cap : CircuitCap
 
-var color : Color
+var color : Consts.CircuitColor
 
-func _init(line_data : IntegerLine, color_in : CircuitData.CircuitColor) -> void:
+func _init(line_data : IntegerLine, color_in : Consts.CircuitColor) -> void:
 	var line := Line2D.new()
-	line.joint_mode = Line2D.LINE_JOINT_ROUND
-	line.width = Consts.WIRE_WIDTH
-	start_coord = line_data.points.front()
-	end_coord = line_data.points.back()
+	Util.configure_line(line)
 	line.points= Util.scale_vec_array_to_unit_size(line_data.points)
-	color = Consts.CircuitColors[color_in]
-	line.default_color = color
-	add_child(line)
 	
-
-func _draw() -> void:
-	# draw the endcaps on the wire segment to make the points where segments can connect to 
-	# each other easily identifiable.
-	draw_circle(Util.scale_vec_to_unit_size(start_coord), Consts.CAP_RADIUS, color)
-	draw_circle(Util.scale_vec_to_unit_size(end_coord), Consts.CAP_RADIUS, color)
+	color = color_in
+	line.default_color = Consts.CircuitColors[color]
+	
+	start_cap = CircuitCap.new(line_data.points.front(), color_in)
+	add_child(start_cap)
+	# don't create two caps that are linked as siblings when the "line" is just 1 point
+	# otherwise circuit traversing algorithm could keep looping back over the same segment
+	if line_data.points.size() <= 1:
+		end_cap = start_cap
+	else:
+		end_cap = CircuitCap.new(line_data.points.back(), color_in)
+		CircuitCap.set_siblings(start_cap, end_cap)
+		add_child(end_cap)
+	
+	add_child(line)

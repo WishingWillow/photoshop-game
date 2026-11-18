@@ -13,3 +13,20 @@ static func scale_vec_to_unit_size(vector : Vector2i) -> Vector2:
 ## Polygon2D or Line2D)
 static func scale_vec_array_to_unit_size(vector_data : Array[Vector2i]) -> PackedVector2Array:
 	return vector_data.map(scale_vec_to_unit_size)
+
+
+## set the styling of the incoming line
+static func configure_line(line : Line2D) -> void:
+	line.joint_mode = Line2D.LINE_JOINT_ROUND
+	line.round_precision = 20
+	line.width = Consts.WIRE_WIDTH
+
+
+## returns vertices for a rectangle of a given size
+static func get_rectangle_vertices(size : Vector2i) -> Array[Vector2i]:
+	var ret : Array[Vector2i] = []
+	ret.append(Vector2i.ZERO)
+	ret.append(Vector2i(0, size.y))
+	ret.append(size)
+	ret.append(Vector2i(size.x, 0))
+	return ret
