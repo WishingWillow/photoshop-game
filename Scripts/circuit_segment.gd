@@ -19,11 +19,14 @@ func _init(line_data : IntegerLine, color_in : Consts.CircuitColor) -> void:
 	line.default_color = Consts.CircuitColors[color]
 	
 	start_cap = CircuitCap.new(line_data.points.front(), color_in)
-	end_cap = CircuitCap.new(line_data.points.back(), color_in)
-	CircuitCap.set_siblings(start_cap, end_cap)
-	
+	add_child(start_cap)
+	# don't create two caps that are linked as siblings when the "line" is just 1 point
+	# otherwise circuit traversing algorithm could keep looping back over the same segment
+	if line_data.points.size() <= 1:
+		end_cap = start_cap
+	else:
+		end_cap = CircuitCap.new(line_data.points.back(), color_in)
+		CircuitCap.set_siblings(start_cap, end_cap)
+		add_child(end_cap)
 	
 	add_child(line)
-	add_child(start_cap)
-	add_child(end_cap)
-	

@@ -97,7 +97,7 @@ func caps_connected(start : CircuitCap, end : CircuitCap) -> bool:
 	# iterate through the shared position caps and see if their sibling is connected to the end cap
 	for cap : CircuitCap in position_share:
 		if cap == start: continue
-		return caps_connected(cap.sibling, end)
+		if caps_connected(cap.sibling, end): return true
 	
 	# end cap wasn't found, return false
 	return false

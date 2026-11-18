@@ -19,8 +19,24 @@ script = ExtResource("1_vxrsa")
 segments = Array[ExtResource("2_igl71")]([SubResource("Resource_44lal"), SubResource("Resource_k16va")])
 metadata/_custom_type_script = "uid://d3caukbg170et"
 
+[sub_resource type="Resource" id="Resource_do7cl"]
+script = ExtResource("2_igl71")
+points = Array[Vector2i]([Vector2i(3, 4)])
+metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
+
+[sub_resource type="Resource" id="Resource_vxrsa"]
+script = ExtResource("2_igl71")
+points = Array[Vector2i]([Vector2i(3, 1), Vector2i(3, 0)])
+metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
+
+[sub_resource type="Resource" id="Resource_igl71"]
+script = ExtResource("1_vxrsa")
+color = 1
+segments = Array[ExtResource("2_igl71")]([SubResource("Resource_do7cl"), SubResource("Resource_vxrsa")])
+metadata/_custom_type_script = "uid://d3caukbg170et"
+
 [resource]
 script = ExtResource("3_28f2l")
 size = Vector2i(5, 4)
-circuits = Array[ExtResource("1_vxrsa")]([SubResource("Resource_8rq27")])
+circuits = Array[ExtResource("1_vxrsa")]([SubResource("Resource_8rq27"), SubResource("Resource_igl71")])
 metadata/_custom_type_script = "uid://blbxmua7tt4nf"

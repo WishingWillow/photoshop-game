@@ -2,14 +2,38 @@
 
 [ext_resource type="Script" uid="uid://jvawcp8u00m1" path="res://Tests/test.gd" id="1_t8wiq"]
 [ext_resource type="Script" uid="uid://dp3hhgt553i2x" path="res://Scripts/layer.gd" id="2_4kyye"]
+[ext_resource type="Script" uid="uid://d3caukbg170et" path="res://Scripts/Resource Definitions/circuit_data.gd" id="3_1mxx1"]
 [ext_resource type="Resource" uid="uid://b6v0p6trw37u7" path="res://Tests/test_layer.tres" id="3_4kyye"]
 [ext_resource type="Script" uid="uid://dgcvil2fki4os" path="res://Scripts/level.gd" id="3_ot2dp"]
+[ext_resource type="Script" uid="uid://ciogh5wk1jw2j" path="res://Scripts/Resource Definitions/integer_line.gd" id="4_t6prb"]
 [ext_resource type="Resource" uid="uid://dob2quqo7o6j1" path="res://Tests/test_level.tres" id="5_ot2dp"]
+[ext_resource type="Script" uid="uid://blbxmua7tt4nf" path="res://Scripts/Resource Definitions/layer_data.gd" id="5_y0c2t"]
+
+[sub_resource type="Resource" id="Resource_u4y3q"]
+script = ExtResource("4_t6prb")
+points = Array[Vector2i]([Vector2i(0, 1), Vector2i(3, 1)])
+metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
+
+[sub_resource type="Resource" id="Resource_s1fgm"]
+script = ExtResource("3_1mxx1")
+segments = Array[ExtResource("4_t6prb")]([SubResource("Resource_u4y3q")])
+metadata/_custom_type_script = "uid://d3caukbg170et"
+
+[sub_resource type="Resource" id="Resource_ot2dp"]
+script = ExtResource("5_y0c2t")
+size = Vector2i(3, 2)
+circuits = Array[ExtResource("3_1mxx1")]([SubResource("Resource_s1fgm")])
+metadata/_custom_type_script = "uid://blbxmua7tt4nf"
 
 [node name="test" type="Node2D" unique_id=2127906253]
 script = ExtResource("1_t8wiq")
 
-[node name="Layer" type="Node2D" parent="." unique_id=577652057]
+[node name="Layer1" type="Node2D" parent="." unique_id=577652057]
+script = ExtResource("2_4kyye")
+_data = SubResource("Resource_ot2dp")
+metadata/_custom_type_script = "uid://dp3hhgt553i2x"
+
+[node name="Layer2" type="Node2D" parent="." unique_id=1073684216]
 script = ExtResource("2_4kyye")
 _data = ExtResource("3_4kyye")
 metadata/_custom_type_script = "uid://dp3hhgt553i2x"
