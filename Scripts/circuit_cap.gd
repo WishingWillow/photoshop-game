@@ -35,5 +35,13 @@ func _draw() -> void:
 		Util.scale_vec_to_unit_size(layer_position), Consts.CAP_RADIUS, Consts.CircuitColors[color])
 
 
-func set_level_position(pos : Vector2i) -> void:
-	level_position = layer_position + pos
+## set the position of the cap in the level given the position of its layer
+func set_level_position(layer_pos : Vector2i) -> void:
+	level_position = layer_position + layer_pos
+
+
+## adjust the layer and level positions. turn_state is the number of turns from the parent layer's
+## default rotation.
+func turn(turn_state : int) -> void:
+	layer_position = Vector2(layer_position).rotated(turn_state * PI / 2)
+	level_position = Vector2(level_position).rotated(turn_state * PI / 2)

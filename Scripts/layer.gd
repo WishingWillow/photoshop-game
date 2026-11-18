@@ -13,6 +13,11 @@ var circuit_segments : Array[CircuitSegment] = []
 
 @onready var outline := Line2D.new()
 
+var level_position : Vector2i
+
+## the number of rotations (turns) applied to the layer [0-3]
+var turned_state : int = 0
+
 
 func _ready() -> void:
 	_parse_data()
@@ -38,7 +43,19 @@ func _parse_data() -> void:
 func set_level_position(pos : Vector2i) -> void:
 	# set position of node
 	position = Util.scale_vec_to_unit_size(pos)
+	level_position = pos
 	#update level position of all caps
 	for segment : CircuitSegment in circuit_segments:
 		segment.start_cap.set_level_position(pos)
 		segment.end_cap.set_level_position(pos)
+
+
+## layers can be rotated by factors of 90 degrees (a "turn")
+func turn(turns : int) -> void:
+	turned_state = (turned_state + turns) % 4
+	# physically rotate node
+	rotation = turned_state * PI / 2
+	# update level positions of circuit caps
+	for segment : CircuitSegment in circuit_segments:
+		segment.start_cap.turn(turned_state)
+		segment.end_cap.turn(turned_state)
