@@ -9,8 +9,7 @@ extends Node2D
 ## nested static typing is not allowed)
 var circuit_segments : Dictionary[Consts.CircuitColor, Array]
 
-## A map of cap position to all circuit segments (non-typed array of CircuitSegment)
-## that are connected to that position
+## A map of cap color to all caps of that color (non-typed array of CircuitCaps)
 var circuit_caps : Dictionary[Consts.CircuitColor, Array]
 
 class CapPair:
