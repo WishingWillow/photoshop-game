@@ -109,4 +109,4 @@ func add_layer(layer : Layer, pos : Vector2i) -> void:
 		circuit_segments[segment.color].append(segment)
 		circuit_caps.get_or_add(segment.color, []).append(segment.start_cap)
 		circuit_caps[segment.color].append(segment.end_cap)
-	layer.set_level_position(pos)
+	layer.set_level_position(self, pos)

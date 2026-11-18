@@ -15,6 +15,10 @@ var circuit_segments : Array[CircuitSegment] = []
 
 var level_position : Vector2i
 
+## Layers move relative to a level, so a layer's position is controlled by a remote transform
+## parented to the level
+var level_transform : RemoteTransform2D
+
 ## the number of rotations (turns) applied to the layer [0-3]
 var turned_state : int = 0
 
@@ -40,9 +44,17 @@ func _parse_data() -> void:
 	add_child(outline)
 
 
-func set_level_position(pos : Vector2i) -> void:
-	# set position of node
-	position = Util.scale_vec_to_unit_size(pos)
+func set_level_position(level : Level, pos : Vector2i) -> void:
+	# check if the layer is part of the level. if it isn't, detach itself from another level
+	# if necessary and create a new transform
+	# TODO: test level switching
+	if level_transform and not level_transform.get_parent() == level:
+		level_transform.free()
+	if not level_transform:
+		level_transform = RemoteTransform2D.new()
+		level.add_child(level_transform)
+		level_transform.remote_path = level_transform.get_path_to(self)
+	level_transform.position = Util.scale_vec_to_unit_size(pos)
 	level_position = pos
 	#update level position of all caps
 	for segment : CircuitSegment in circuit_segments:
