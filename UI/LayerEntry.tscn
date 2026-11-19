@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://by8h4cdi166l8"]
+
+[node name="LayerEntry" type="PanelContainer" unique_id=2012853178]
+custom_minimum_size = Vector2(0, 80)
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=17887702]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=483126735]
+layout_mode = 2
+
+[node name="Preview" type="TextureRect" parent="MarginContainer/HBoxContainer" unique_id=1950087050]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+expand_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=1435130503]
+layout_mode = 2
+
+[node name="LayerName" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=103853628]
+layout_mode = 2
+text = "Layer"
