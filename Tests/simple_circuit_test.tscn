@@ -1,11 +1,22 @@
 [gd_scene format=3 uid="uid://bd03sltphuclv"]
 
-[ext_resource type="Script" uid="uid://jvawcp8u00m1" path="res://Tests/simple_circuit_test.gd" id="1_unk6h"]
+[ext_resource type="Script" uid="uid://jvawcp8u00m1" path="res://Tests/test_script.gd" id="1_unk6h"]
 [ext_resource type="Script" uid="uid://dp3hhgt553i2x" path="res://Scripts/layer.gd" id="2_x12yg"]
+[ext_resource type="Script" uid="uid://bnh2m3iwas8kl" path="res://Tests/move.gd" id="2_x730x"]
 [ext_resource type="Script" uid="uid://d3caukbg170et" path="res://Scripts/Resource Definitions/circuit_data.gd" id="3_x730x"]
 [ext_resource type="Script" uid="uid://ciogh5wk1jw2j" path="res://Scripts/Resource Definitions/integer_line.gd" id="4_5o81y"]
 [ext_resource type="Script" uid="uid://blbxmua7tt4nf" path="res://Scripts/Resource Definitions/layer_data.gd" id="5_cr1lb"]
 [ext_resource type="Script" uid="uid://dgcvil2fki4os" path="res://Scripts/level.gd" id="6_2mqjw"]
+
+[sub_resource type="Resource" id="Resource_unk6h"]
+script = ExtResource("2_x730x")
+add_position = Vector2i(1, 1)
+metadata/_custom_type_script = "uid://bnh2m3iwas8kl"
+
+[sub_resource type="Resource" id="Resource_x12yg"]
+script = ExtResource("2_x730x")
+add_position = Vector2i(2, 1)
+metadata/_custom_type_script = "uid://bnh2m3iwas8kl"
 
 [sub_resource type="Resource" id="Resource_u4y3q"]
 script = ExtResource("4_5o81y")
@@ -77,8 +88,13 @@ size = Vector2i(5, 4)
 circuits = Array[ExtResource("3_x730x")]([SubResource("Resource_202fc"), SubResource("Resource_cpq2q")])
 metadata/_custom_type_script = "uid://blbxmua7tt4nf"
 
-[node name="test" type="Node2D" unique_id=2127906253]
+[node name="test" type="Node2D" unique_id=2127906253 node_paths=PackedStringArray("level", "moves")]
 script = ExtResource("1_unk6h")
+level = NodePath("Level")
+moves = {
+NodePath("Layer1"): SubResource("Resource_unk6h"),
+NodePath("Layer2"): SubResource("Resource_x12yg")
+}
 
 [node name="Layer1" type="Node2D" parent="." unique_id=577652057]
 script = ExtResource("2_x12yg")
