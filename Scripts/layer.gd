@@ -2,7 +2,7 @@
 ## of it that can be connected. The script runs in the editor so that the layer data can be shown
 ## without the game/scene running. 
 class_name Layer
-extends Node2D
+extends AbstractLayer
 
 ## The resource that stores the shape and contents of a layer
 @export var _data : LayerData
@@ -32,8 +32,8 @@ var turned_state : int = 0
 
 func _ready() -> void:
 	_parse_data()
-	
-	
+
+
 func _parse_data() -> void:
 	# all data needs to be scaled by the UNIT_SCALE, otherwise objects may only be a few pixels
 	# wide
@@ -49,6 +49,12 @@ func _parse_data() -> void:
 	# make sure outline renders behind wires
 	outline.z_index = -1
 	adjusted_node.add_child(outline)
+	
+	# configure mouse detection
+	var mouse_area := Util.make_polygon_area_2d(outline.points)
+	mouse_area.mouse_entered.connect(func(): mouse_over = true)
+	mouse_area.mouse_exited.connect(func(): mouse_over = false)
+	adjusted_node.add_child(mouse_area)
 	
 	# add adjusted node
 	add_child(adjusted_node)
