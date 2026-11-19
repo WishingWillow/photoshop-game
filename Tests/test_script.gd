@@ -1,16 +1,17 @@
 extends Node2D
 
 @export var level : Level
-@export var moves : Dictionary[Layer, Move]
+@export var layers : Array[Layer]
+@export var moves : Array[Move]
 
 func _ready() -> void:
-	for layer : Layer in moves.keys(): $Level.register_layer(layer)
+	for layer : Layer in layers: level.register_layer(layer)
 	
 	print ("checking level complete: ", level.check_complete())
 	# execute moves with 2 second delay
-	for layer : Layer in moves.keys():
+	for move : Move in moves:
 		await get_tree().create_timer(2).timeout
-		var move := moves[layer]
+		var layer : Layer = get_node(move.layer_path)
 		if not move.add_position == Vector2i.ZERO:
 			var current_position := layer.level_position
 			layer.set_level_position(level, current_position + move.add_position)

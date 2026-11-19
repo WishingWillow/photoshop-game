@@ -106,6 +106,6 @@ func caps_connected(start : CircuitCap, end : CircuitCap) -> bool:
 ## TODO: for now, layer addition is not reversible
 func register_layer(layer : Layer) -> void:
 	for segment in layer.circuit_segments:
-		circuit_segments[segment.color].append(segment)
+		circuit_segments.get_or_add(segment.color, []).append(segment)
 		circuit_caps.get_or_add(segment.color, []).append(segment.start_cap)
 		circuit_caps[segment.color].append(segment.end_cap)
