@@ -30,3 +30,10 @@ static func get_rectangle_vertices(size : Vector2i) -> Array[Vector2i]:
 	ret.append(size)
 	ret.append(Vector2i(size.x, 0))
 	return ret
+
+
+static func rotate_vector2i(vec : Vector2i, turns : int) -> Vector2i:
+	var rotated := vec
+	for i in turns:
+		rotated = Vector2i(-rotated.y, rotated.x)
+	return rotated
