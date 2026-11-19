@@ -2,6 +2,7 @@ extends Node
 
 
 # track mouse clicks and movements
+# generates new events for other game nodes to listen to (like dragging)
 
 enum MouseState {IDLE, CLICK, HOLD, DRAG, DRAG_RELEASE, RELEASE}
 var current_state : MouseState
@@ -23,16 +24,13 @@ var _drag_nodes : Array[Node2D]
 
 
 ## A node can request to have its transform updated during a mouses drag state
-func add_to_drag(node : Node2D) -> void:
+func follow_mouse(node : Node2D) -> void:
 	if node not in _drag_nodes:
-		print("ooh")
 		_drag_nodes.push_back(node)
 
 
-func remove_from_drag(node : Node2D) -> void:
-	if node in _drag_nodes:
-		print("ahh")
-		_drag_nodes.erase(node)
+func unfollow_mouse(node : Node2D) -> void:
+	_drag_nodes.erase(node)
 
 
 ## Process input *after* GUI
@@ -52,7 +50,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			
 			MouseState.CLICK:
 				# on click events should happen here
-				print("click")
 				# register click position
 				click_position = mouse_position
 				current_state = MouseState.HOLD
@@ -76,17 +73,30 @@ func _unhandled_input(event: InputEvent) -> void:
 					continue
 				
 				# dragging events should happen here
-				print("draaaag")
+				press_event("drag")
 				for node : Node2D in _drag_nodes:
 					node.position += (mouse_position - drag_position)
 				drag_position = mouse_position
 			
 			MouseState.DRAG_RELEASE:
 				# drag release events should happen here
-				print("drag release")
+				release_event("drag")
 				current_state = MouseState.IDLE
 			
 			MouseState.RELEASE:
 				# on release events should go here
-				print("release")
 				current_state = MouseState.IDLE
+
+
+func press_event(action : String) -> void:
+	var event := InputEventAction.new()
+	event.action = action
+	event.pressed = true
+	Input.parse_input_event(event)
+
+
+func release_event(action : String) -> void:
+	var event := InputEventAction.new()
+	event.action = action
+	event.pressed = false
+	Input.parse_input_event(event)

@@ -29,11 +29,25 @@ var level_transform : RemoteTransform2D
 ## the number of rotations (turns) applied to the layer [0-3]
 var turned_state : int = 0
 
+## tracks whether the layer should listen to mouse events like dragging and clicking
+var mouse_over : bool = false
+## mouse_down state is set manually, trumping mouse_over which is set by area signals
+var mouse_down : bool = false
+
 
 func _ready() -> void:
 	_parse_data()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if (!(mouse_over or mouse_down)): return
+	if mouse_down and event.is_action_pressed("drag"): Mouse.follow_mouse(self)
 	
-	
+	if event.is_action_pressed("select"): mouse_down = true
+	elif event.is_action_released("select"): mouse_down = false
+	elif event.is_action_released("drag"): Mouse.unfollow_mouse(self)
+
+
 func _parse_data() -> void:
 	# all data needs to be scaled by the UNIT_SCALE, otherwise objects may only be a few pixels
 	# wide
@@ -52,8 +66,8 @@ func _parse_data() -> void:
 	
 	# configure mouse detection
 	var mouse_area := Util.make_polygon_area_2d(outline.points)
-	mouse_area.mouse_entered.connect(Mouse.add_to_drag.bind(self))
-	mouse_area.mouse_exited.connect(Mouse.remove_from_drag.bind(self))
+	mouse_area.mouse_entered.connect(func(): mouse_over = true)
+	mouse_area.mouse_exited.connect(func(): mouse_over = false)
 	adjusted_node.add_child(mouse_area)
 	
 	# add adjusted node
