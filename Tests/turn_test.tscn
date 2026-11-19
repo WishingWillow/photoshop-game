@@ -83,3 +83,5 @@ metadata/_custom_type_script = "uid://dp3hhgt553i2x"
 script = ExtResource("6_4qnu3")
 _data = SubResource("Resource_0ggpj")
 metadata/_custom_type_script = "uid://dgcvil2fki4os"
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1148664140]

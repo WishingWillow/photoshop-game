@@ -2,9 +2,13 @@
 class_name CircuitCap
 extends Node2D
 
+var color : Consts.CircuitColor
+
+## cap's position in a layer without any transformations applied to the layer
+var default_layer_position : Vector2i
+
 ## position local to its circuit segment/layer
 var layer_position : Vector2i
-var color : Consts.CircuitColor
 
 ## position in a level (set from above)
 var level_position : Vector2i
@@ -13,6 +17,7 @@ var sibling : CircuitCap = null
 
 
 func _init(pos : Vector2i, col : Consts.CircuitColor) -> void:
+	default_layer_position = pos
 	layer_position = pos
 	color = col
 
@@ -38,10 +43,3 @@ func _draw() -> void:
 ## set the position of the cap in the level given the position of its layer
 func set_level_position(layer_pos : Vector2i) -> void:
 	level_position = layer_position + layer_pos
-
-
-## adjust the layer and level positions. turn_state is the number of turns from the parent layer's
-## default rotation.
-func turn(turn_state : int) -> void:
-	layer_position = Vector2(layer_position).rotated(turn_state * PI / 2)
-	level_position = Vector2(level_position).rotated(turn_state * PI / 2)
