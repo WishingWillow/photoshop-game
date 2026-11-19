@@ -37,3 +37,11 @@ static func rotate_vector2i(vec : Vector2i, turns : int) -> Vector2i:
 	for i in turns:
 		rotated = Vector2i(-rotated.y, rotated.x)
 	return rotated
+
+
+static func make_polygon_area_2d(points : PackedVector2Array) -> Area2D:
+	var area := Area2D.new()
+	var collision_shape := CollisionPolygon2D.new()
+	collision_shape.polygon = points
+	area.add_child(collision_shape)
+	return area

@@ -50,6 +50,12 @@ func _parse_data() -> void:
 	outline.z_index = -1
 	adjusted_node.add_child(outline)
 	
+	# configure mouse detection
+	var mouse_area := Util.make_polygon_area_2d(outline.points)
+	mouse_area.mouse_entered.connect(Mouse.add_to_drag.bind(self))
+	mouse_area.mouse_exited.connect(Mouse.remove_from_drag.bind(self))
+	adjusted_node.add_child(mouse_area)
+	
 	# add adjusted node
 	add_child(adjusted_node)
 
