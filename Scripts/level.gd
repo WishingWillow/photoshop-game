@@ -1,7 +1,7 @@
 ## A level is composed of circuit segments that connect to the edges. Its data can be stored
 ## as a LayerData
 class_name Level
-extends Node2D
+extends AbstractLayer
 
 @export var _data : LayerData
 

@@ -2,7 +2,7 @@
 ## of it that can be connected. The script runs in the editor so that the layer data can be shown
 ## without the game/scene running. 
 class_name Layer
-extends Node2D
+extends AbstractLayer
 
 ## The resource that stores the shape and contents of a layer
 @export var _data : LayerData
@@ -29,23 +29,9 @@ var level_transform : RemoteTransform2D
 ## the number of rotations (turns) applied to the layer [0-3]
 var turned_state : int = 0
 
-## tracks whether the layer should listen to mouse events like dragging and clicking
-var mouse_over : bool = false
-## mouse_down state is set manually, trumping mouse_over which is set by area signals
-var mouse_down : bool = false
-
 
 func _ready() -> void:
 	_parse_data()
-
-
-func _unhandled_input(event: InputEvent) -> void:
-	if (!(mouse_over or mouse_down)): return
-	if mouse_down and event.is_action_pressed("drag"): Mouse.follow_mouse(self)
-	
-	if event.is_action_pressed("select"): mouse_down = true
-	elif event.is_action_released("select"): mouse_down = false
-	elif event.is_action_released("drag"): Mouse.unfollow_mouse(self)
 
 
 func _parse_data() -> void:
