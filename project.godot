@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Photoshop Game"
-run/main_scene="uid://ciu5q2n43mg0o"
+run/main_scene="uid://6av2t4uihtlw"
 config/features=PackedStringArray("4.7", "Mobile")
 
 [autoload]

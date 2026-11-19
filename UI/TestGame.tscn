@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://6av2t4uihtlw"]
+
+[ext_resource type="Script" uid="uid://dy53x67upeo3d" path="res://UI/UI Scripts/test_game.gd" id="1_vwbxs"]
+[ext_resource type="PackedScene" uid="uid://b7ohq73rvyklc" path="res://Tests/chain_test.tscn" id="2_a285m"]
+[ext_resource type="PackedScene" uid="uid://ciu5q2n43mg0o" path="res://UI/ui.tscn" id="2_vwbxs"]
+
+[node name="TestGame" type="Node2D" unique_id=551869463]
+script = ExtResource("1_vwbxs")
+
+[node name="test" parent="." unique_id=2127906253 instance=ExtResource("2_a285m")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=367689532]
+
+[node name="UI" parent="CanvasLayer" unique_id=1096489841 instance=ExtResource("2_vwbxs")]
