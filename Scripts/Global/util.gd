@@ -45,3 +45,9 @@ static func make_polygon_area_2d(points : PackedVector2Array) -> Area2D:
 	collision_shape.polygon = points
 	area.add_child(collision_shape)
 	return area
+
+
+static func create_static_signal(obj : GDScript, signal_name : String, signal_args : Array = []) -> Signal:
+	# https://stackoverflow.com/questions/77026156/how-to-write-a-static-event-emitter-in-gdscript
+	obj.add_user_signal(signal_name, signal_args)
+	return Signal(obj, signal_name)

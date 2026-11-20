@@ -19,6 +19,7 @@ func _ready() -> void:
 	z_as_relative = false
 	queue_redraw()
 
+
 func _draw() -> void:
 	# playspace size should be recalculated when drawing to display in the editor properly
 	if Engine.is_editor_hint():

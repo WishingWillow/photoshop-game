@@ -4,9 +4,6 @@
 class_name Layer
 extends AbstractLayer
 
-## The resource that stores the shape and contents of a layer
-@export var data : LayerData
-
 ## An array of segments that's populated using the data in data
 var circuit_segments : Array[CircuitSegment] = []
 

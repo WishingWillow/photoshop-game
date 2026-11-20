@@ -3,14 +3,15 @@
 class_name Level
 extends AbstractLayer
 
-@export var data : LayerData
-
 ## A map of circuit color to the corresponding array of segments (the array is untyped because 
 ## nested static typing is not allowed)
 var circuit_segments : Dictionary[Consts.CircuitColor, Array]
 
 ## A map of cap color to all caps of that color (non-typed array of CircuitCaps)
 var circuit_caps : Dictionary[Consts.CircuitColor, Array]
+
+## all layers that are currently registered to (used inside) this level
+var layers : Array[Layer]
 
 class CapPair:
 	var start : CircuitCap
@@ -26,6 +27,18 @@ var level_caps : Array[CapPair]
 func _ready() -> void:
 	_init_segments()
 	_init_caps()
+	
+	notify_layer_placement.connect(check_layer_intersection)
+
+
+func check_layer_intersection(layer : AbstractLayer) -> void:
+	if layer.rect.intersects(rect):
+		register_layer(layer)
+		layer.set_level_position(self, layer.playspace_coords - playspace_coords)
+		print("checking level complete: ", check_complete())
+		
+	elif layers.has(layer):
+		unregister_layer(layer)
 
 
 func _init_segments() -> void:
@@ -103,9 +116,21 @@ func caps_connected(start : CircuitCap, end : CircuitCap) -> bool:
 	return false
 
 
-## TODO: for now, layer addition is not reversible
 func register_layer(layer : Layer) -> void:
+	if layers.has(layer): return
 	for segment in layer.circuit_segments:
 		circuit_segments.get_or_add(segment.color, []).append(segment)
 		circuit_caps.get_or_add(segment.color, []).append(segment.start_cap)
 		circuit_caps[segment.color].append(segment.end_cap)
+	layers.append(layer)
+	print("registered ", layer)
+
+
+func unregister_layer(layer : Layer) -> void:
+	if not layers.has(layer): return
+	for segment in layer.circuit_segments:
+		circuit_segments[segment.color].erase(segment)
+		circuit_caps[segment.color].erase(segment.start_cap)
+		circuit_caps[segment.color].erase(segment.end_cap)
+	layers.erase(layer)
+	print("unregistered ", layer)
