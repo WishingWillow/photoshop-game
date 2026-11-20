@@ -3,7 +3,7 @@
 class_name Level
 extends AbstractLayer
 
-@export var _data : LayerData
+@export var data : LayerData
 
 ## A map of circuit color to the corresponding array of segments (the array is untyped because 
 ## nested static typing is not allowed)
@@ -29,7 +29,7 @@ func _ready() -> void:
 
 
 func _init_segments() -> void:
-	for circuit_data : CircuitData in _data.circuits:
+	for circuit_data : CircuitData in data.circuits:
 		circuit_segments[circuit_data.color] = circuit_data.create_segments(self)
 
 

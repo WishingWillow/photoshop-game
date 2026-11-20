@@ -1,12 +1,14 @@
 [gd_scene format=3 uid="uid://ciu5q2n43mg0o"]
 
-[ext_resource type="Script" uid="uid://byg5iul8343db" path="res://UI/game_ui.gd" id="1_2fwl4"]
+[ext_resource type="Script" uid="uid://byg5iul8343db" path="res://UI/UI Scripts/game_ui.gd" id="1_2fwl4"]
 [ext_resource type="Texture2D" uid="uid://cbyvxv20v042l" path="res://UI/Assets/MoveButtonIcon.png" id="2_c7tqi"]
 [ext_resource type="Texture2D" uid="uid://bxdb485e38brc" path="res://UI/Assets/ScaleButtonIcon.png" id="3_cbfhl"]
 [ext_resource type="Texture2D" uid="uid://ce6uo5284uw1a" path="res://UI/Assets/RotateButtonIcon.png" id="4_4fiuh"]
 [ext_resource type="Texture2D" uid="uid://c8q4tusn4egyv" path="res://UI/Assets/MirrorButtonIcon.png" id="5_h81ot"]
 [ext_resource type="Texture2D" uid="uid://cl3ye444uinfp" path="res://UI/Assets/SliceButtonIcon.png" id="6_6rr40"]
 [ext_resource type="Texture2D" uid="uid://dg5htqq74hbe0" path="res://UI/Assets/UndoButtonIcon.png" id="7_0w6e5"]
+[ext_resource type="Script" uid="uid://f7chq1kajgdl" path="res://UI/UI Scripts/layer_list.gd" id="8_cbfhl"]
+[ext_resource type="PackedScene" uid="uid://by8h4cdi166l8" path="res://UI/LayerEntry.tscn" id="9_4fiuh"]
 
 [node name="UI" type="Control" unique_id=1096489841]
 layout_mode = 3
@@ -98,6 +100,17 @@ size_flags_vertical = 3
 [node name="LayerBar" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=985352176]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/LayerBar" unique_id=869786027]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="LayerList" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/LayerBar/ScrollContainer" unique_id=2047497893]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+script = ExtResource("8_cbfhl")
+layer_entry_scene = ExtResource("9_4fiuh")
 
 [node name="LevelView" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1166282176]
 layout_mode = 2

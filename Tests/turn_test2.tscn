@@ -82,12 +82,12 @@ moves = Array[ExtResource("2_xqmv5")]([SubResource("Resource_kg3gl"), SubResourc
 
 [node name="Layer1" type="Node2D" parent="." unique_id=577652057]
 script = ExtResource("3_1tayn")
-_data = SubResource("Resource_ot2dp")
+data = SubResource("Resource_ot2dp")
 metadata/_custom_type_script = "uid://dp3hhgt553i2x"
 
 [node name="Level" type="Node2D" parent="." unique_id=171202069]
 script = ExtResource("7_v3uhv")
-_data = SubResource("Resource_0ggpj")
+data = SubResource("Resource_0ggpj")
 metadata/_custom_type_script = "uid://dgcvil2fki4os"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1148664140]
