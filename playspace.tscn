@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://b4og7va0hatyf" path="res://Scripts/bounded_camera.gd" id="2_6ity8"]
 
 [node name="Playspace" type="Node2D" unique_id=263223627]
+z_index = -2
 script = ExtResource("1_altua")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1777739184]
