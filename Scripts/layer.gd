@@ -5,9 +5,9 @@ class_name Layer
 extends AbstractLayer
 
 ## The resource that stores the shape and contents of a layer
-@export var _data : LayerData
+@export var data : LayerData
 
-## An array of segments that's populated using the data in _data
+## An array of segments that's populated using the data in data
 var circuit_segments : Array[CircuitSegment] = []
 
 @onready var outline := Line2D.new()
@@ -30,6 +30,14 @@ var level_transform : RemoteTransform2D
 var turned_state : int = 0
 
 
+## using create instead of _init because there are layers with exported properties set in the editor
+## that _init would override
+static func create(data_in : LayerData) -> Layer:
+	var layer := Layer.new()
+	layer.data = data_in
+	return layer
+
+
 func _ready() -> void:
 	_parse_data()
 
@@ -37,9 +45,9 @@ func _ready() -> void:
 func _parse_data() -> void:
 	# all data needs to be scaled by the UNIT_SCALE, otherwise objects may only be a few pixels
 	# wide
-	layer_vertices = Util.get_rectangle_vertices(_data.size)
+	layer_vertices = Util.get_rectangle_vertices(data.size)
 	outline.points = Util.scale_vec_array_to_unit_size(layer_vertices)
-	for circuit_data : CircuitData in _data.circuits:
+	for circuit_data : CircuitData in data.circuits:
 		circuit_segments.append_array(circuit_data.create_segments(adjusted_node))
 	
 	#configure outline

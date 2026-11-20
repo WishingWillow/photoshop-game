@@ -98,15 +98,15 @@ moves = Array[ExtResource("2_x730x")]([SubResource("Resource_x12yg"), SubResourc
 
 [node name="Layer1" type="Node2D" parent="." unique_id=577652057]
 script = ExtResource("2_x12yg")
-_data = SubResource("Resource_ot2dp")
+data = SubResource("Resource_ot2dp")
 metadata/_custom_type_script = "uid://dp3hhgt553i2x"
 
 [node name="Layer2" type="Node2D" parent="." unique_id=1073684216]
 script = ExtResource("2_x12yg")
-_data = SubResource("Resource_y0c2t")
+data = SubResource("Resource_y0c2t")
 metadata/_custom_type_script = "uid://dp3hhgt553i2x"
 
 [node name="Level" type="Node2D" parent="." unique_id=171202069]
 script = ExtResource("6_2mqjw")
-_data = SubResource("Resource_gxmvg")
+data = SubResource("Resource_gxmvg")
 metadata/_custom_type_script = "uid://dgcvil2fki4os"

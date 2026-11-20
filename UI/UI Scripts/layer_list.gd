@@ -9,9 +9,7 @@ func populate_layers(layers: Array[Layer]) -> void:
 		child.queue_free()
 
 	# Generate an entry for every layer
-	for i in range(layers.size()):
-		var layer: Layer = layers[i]
-		
+	for layer : Layer in layers:
 		var entry = layer_entry_scene.instantiate()
 		
 		add_child(entry)
