@@ -1,12 +1,6 @@
 [gd_scene format=3 uid="uid://ciu5q2n43mg0o"]
 
 [ext_resource type="Script" uid="uid://byg5iul8343db" path="res://UI/UI Scripts/game_ui.gd" id="1_2fwl4"]
-[ext_resource type="Texture2D" uid="uid://cbyvxv20v042l" path="res://UI/Assets/MoveButtonIcon.png" id="2_c7tqi"]
-[ext_resource type="Texture2D" uid="uid://bxdb485e38brc" path="res://UI/Assets/ScaleButtonIcon.png" id="3_cbfhl"]
-[ext_resource type="Texture2D" uid="uid://ce6uo5284uw1a" path="res://UI/Assets/RotateButtonIcon.png" id="4_4fiuh"]
-[ext_resource type="Texture2D" uid="uid://c8q4tusn4egyv" path="res://UI/Assets/MirrorButtonIcon.png" id="5_h81ot"]
-[ext_resource type="Texture2D" uid="uid://cl3ye444uinfp" path="res://UI/Assets/SliceButtonIcon.png" id="6_6rr40"]
-[ext_resource type="Texture2D" uid="uid://dg5htqq74hbe0" path="res://UI/Assets/UndoButtonIcon.png" id="7_0w6e5"]
 [ext_resource type="Script" uid="uid://f7chq1kajgdl" path="res://UI/UI Scripts/layer_list.gd" id="8_cbfhl"]
 [ext_resource type="PackedScene" uid="uid://by8h4cdi166l8" path="res://UI/LayerEntry.tscn" id="9_4fiuh"]
 
@@ -57,41 +51,6 @@ size_flags_horizontal = 3
 
 [node name="LevelMenu" type="OptionButton" parent="MarginContainer/VBoxContainer/TopBarContainer" unique_id=1824949726]
 layout_mode = 2
-
-[node name="ToolBarContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1210550459]
-layout_mode = 2
-
-[node name="MoveButton" type="Button" parent="MarginContainer/VBoxContainer/ToolBarContainer" unique_id=783653079]
-layout_mode = 2
-icon = ExtResource("2_c7tqi")
-
-[node name="ScaleButton" type="Button" parent="MarginContainer/VBoxContainer/ToolBarContainer" unique_id=1302577072]
-layout_mode = 2
-icon = ExtResource("3_cbfhl")
-icon_alignment = 1
-
-[node name="RotateButton" type="Button" parent="MarginContainer/VBoxContainer/ToolBarContainer" unique_id=1949795163]
-layout_mode = 2
-icon = ExtResource("4_4fiuh")
-icon_alignment = 1
-
-[node name="MirrorButton" type="Button" parent="MarginContainer/VBoxContainer/ToolBarContainer" unique_id=1186211908]
-layout_mode = 2
-icon = ExtResource("5_h81ot")
-icon_alignment = 1
-
-[node name="SliceButton" type="Button" parent="MarginContainer/VBoxContainer/ToolBarContainer" unique_id=1272461265]
-layout_mode = 2
-icon = ExtResource("6_6rr40")
-icon_alignment = 1
-
-[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/ToolBarContainer" unique_id=1010003887]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="UndoButton" type="Button" parent="MarginContainer/VBoxContainer/ToolBarContainer" unique_id=1586513702]
-layout_mode = 2
-icon = ExtResource("7_0w6e5")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1098168033]
 layout_mode = 2
