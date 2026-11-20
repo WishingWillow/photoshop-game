@@ -33,8 +33,8 @@ func unfollow_mouse(node : Node2D) -> void:
 	_drag_nodes.erase(node)
 
 
-## Process input *after* GUI
-func _unhandled_input(event: InputEvent) -> void:
+## Process input before GUI
+func _input(event: InputEvent) -> void:
 	if event is not InputEventMouse: return
 	var process_input := true
 	while process_input:
@@ -68,6 +68,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			
 			MouseState.DRAG:
 				if event.is_action_released("select"):
+					# consume the input (nom nom)
+					get_viewport().set_input_as_handled()
 					current_state = MouseState.DRAG_RELEASE
 					process_input = true
 					continue

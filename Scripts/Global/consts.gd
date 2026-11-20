@@ -18,6 +18,13 @@ enum CircuitColor { RED, BLUE }
 ## This dictionary defines the screen colors that correspond to the enumerated colors a circuit can
 ## take.
 const CircuitColors : Dictionary[CircuitColor, Color] = {
-	CircuitColor.RED : Color.RED,
-	CircuitColor.BLUE : Color.BLUE
+	CircuitColor.RED : Color("fa7167"),
+	CircuitColor.BLUE : Color("027aff")
 }
+
+const GridColors : Dictionary[String, Color] = {
+	A = Color(0.2, 0.2, 0.2),
+	B = Color(0.27, 0.27, 0.27),
+}
+
+enum ZIndex {BACKGROUND = -3, LEVEL_BACKGROUND = -2, LAYER_BORDER = -1, WIRE = 0, CAP = 1}

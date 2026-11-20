@@ -20,6 +20,8 @@ func _init(pos : Vector2i, col : Consts.CircuitColor) -> void:
 	default_layer_position = pos
 	layer_position = pos
 	color = col
+	z_index = Consts.ZIndex.CAP
+	z_as_relative = false
 
 
 static func copy(cap : CircuitCap) -> CircuitCap:

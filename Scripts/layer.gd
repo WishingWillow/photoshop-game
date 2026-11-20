@@ -4,9 +4,6 @@
 class_name Layer
 extends AbstractLayer
 
-## The resource that stores the shape and contents of a layer
-@export var data : LayerData
-
 ## An array of segments that's populated using the data in data
 var circuit_segments : Array[CircuitSegment] = []
 
@@ -55,7 +52,8 @@ func _parse_data() -> void:
 	outline.closed = true
 	outline.default_color = Color.DIM_GRAY
 	# make sure outline renders behind wires
-	outline.z_index = -1
+	outline.z_index = Consts.ZIndex.LAYER_BORDER
+	outline.z_as_relative = false
 	adjusted_node.add_child(outline)
 	
 	# configure mouse detection

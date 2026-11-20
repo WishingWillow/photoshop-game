@@ -30,3 +30,6 @@ func _init(line_data : IntegerLine, color_in : Consts.CircuitColor) -> void:
 		add_child(end_cap)
 	
 	add_child(line)
+	
+	z_index = Consts.ZIndex.WIRE
+	z_as_relative = false
