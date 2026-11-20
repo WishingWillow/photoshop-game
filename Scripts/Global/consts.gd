@@ -21,3 +21,6 @@ const CircuitColors : Dictionary[CircuitColor, Color] = {
 	CircuitColor.RED : Color.RED,
 	CircuitColor.BLUE : Color.BLUE
 }
+
+const GRID_COLOR_A := Color(0.2, 0.2, 0.2)
+const GRID_COLOR_B := Color(0.27, 0.27, 0.27)
