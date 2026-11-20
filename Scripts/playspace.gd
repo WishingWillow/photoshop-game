@@ -15,7 +15,8 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	# grid should draw under all other elements
-	z_index = -2
+	z_index = Consts.ZIndex.BACKGROUND
+	z_as_relative = false
 	queue_redraw()
 
 func _draw() -> void:

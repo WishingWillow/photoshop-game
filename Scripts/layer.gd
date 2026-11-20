@@ -55,7 +55,8 @@ func _parse_data() -> void:
 	outline.closed = true
 	outline.default_color = Color.DIM_GRAY
 	# make sure outline renders behind wires
-	outline.z_index = -1
+	outline.z_index = Consts.ZIndex.LAYER_BORDER
+	outline.z_as_relative = false
 	adjusted_node.add_child(outline)
 	
 	# configure mouse detection

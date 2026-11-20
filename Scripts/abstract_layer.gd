@@ -20,3 +20,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_released("drag"):
 		mouse_down = false
 		Mouse.unfollow_mouse(self)
+		snap_to_playspace()
+
+func snap_to_playspace() -> void:
+	@warning_ignore_start("narrowing_conversion")
+	var play_x_coord := snappedi(position.x, Consts.UNIT_SCALE)
+	var play_y_coord := snappedi(position.y, Consts.UNIT_SCALE)
+	@warning_ignore_restore("narrowing_conversion")
+	position = Vector2(play_x_coord, play_y_coord)

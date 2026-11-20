@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bbo6xxrspebam" path="res://Scripts/playspace.gd" id="1_altua"]
 [ext_resource type="Script" uid="uid://b4og7va0hatyf" path="res://Scripts/bounded_camera.gd" id="2_6ity8"]
+[ext_resource type="PackedScene" uid="uid://uo014v70qrti" path="res://Tests/drag_test.tscn" id="3_6ity8"]
 
 [node name="Playspace" type="Node2D" unique_id=263223627]
 z_index = -2
@@ -12,3 +13,5 @@ anchor_mode = 0
 limit_enabled = false
 editor_draw_drag_margin = true
 script = ExtResource("2_6ity8")
+
+[node name="test2" parent="." unique_id=2127906253 instance=ExtResource("3_6ity8")]
