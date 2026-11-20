@@ -1,8 +1,13 @@
 [gd_scene format=3 uid="uid://cke8jgko6uqrn"]
 
-[ext_resource type="Script" uid="uid://bbo6xxrspebam" path="res://Scripts/background.gd" id="1_6wcpd"]
+[ext_resource type="Script" uid="uid://bbo6xxrspebam" path="res://Scripts/playspace.gd" id="1_altua"]
+[ext_resource type="Script" uid="uid://b4og7va0hatyf" path="res://Scripts/bounded_camera.gd" id="2_6ity8"]
 
 [node name="Playspace" type="Node2D" unique_id=263223627]
+script = ExtResource("1_altua")
 
-[node name="Background" type="Node2D" parent="." unique_id=1172599052]
-script = ExtResource("1_6wcpd")
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1777739184]
+anchor_mode = 0
+limit_enabled = false
+editor_draw_drag_margin = true
+script = ExtResource("2_6ity8")

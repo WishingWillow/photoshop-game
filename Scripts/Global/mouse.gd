@@ -35,7 +35,6 @@ func unfollow_mouse(node : Node2D) -> void:
 
 ## Process input *after* GUI
 func _unhandled_input(event: InputEvent) -> void:
-	if event is not InputEventMouse: return
 	var process_input := true
 	while process_input:
 		# by default, don't try processing input again
