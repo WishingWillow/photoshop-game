@@ -15,9 +15,9 @@ static var notify_layer_placement : Signal = Util.create_static_signal(
 	"notify_layer_placement", 
 	[{"name" : "layer", "type" : TYPE_OBJECT}])
 
-var rect : Rect2:
-	get:
-		return Rect2(position, Util.scale_vec_to_unit_size(data.size))
+# TODO: initial position may vary instead of always being 0
+## A layer's rectangle in playspace coordinates
+@onready var rect := Rect2(Vector2.ZERO, data.size)
 
 var playspace_coords := Vector2i.ZERO
 
@@ -42,3 +42,4 @@ func snap_to_playspace() -> void:
 	var play_y_coord := snappedi(position.y, Consts.UNIT_SCALE)
 	position = Vector2(play_x_coord, play_y_coord)
 	playspace_coords = position / Consts.UNIT_SCALE
+	rect = Rect2(playspace_coords, rect.size)

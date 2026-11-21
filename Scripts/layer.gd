@@ -5,7 +5,7 @@ class_name Layer
 extends AbstractLayer
 
 ## An array of segments that's populated using the data in data
-var path_segments : Array[PathSegment] = []
+@export var path_segments : Array[PathSegment] = []
 
 @onready var outline := Line2D.new()
 
@@ -87,11 +87,14 @@ func set_level_position(level : Level, pos : Vector2i) -> void:
 ## layers can be rotated by factors of 90 degrees (a "turn")
 func turn(turns : int) -> void:
 	turned_state = (turned_state + turns) % 4
-	var angle : float = turned_state * PI / 2
+	var angle : float = turns * PI / 2
+	var angle_state : float = turned_state * PI / 2
 	
 	# physically rotate node and adjust position so that new top left corner is at layer position
-	adjusted_node.rotation = angle
+	adjusted_node.rotation = angle_state
 	
+	# the adjustment is the vector representing the new horizontal side of the layer, 
+	# indexed by turned state
 	var position_adjustment := -Util.rotate_vector2i(layer_vertices[turned_state], turned_state)
 	adjusted_node.position = Util.scale_vec_to_unit_size(position_adjustment)
 	
@@ -104,5 +107,25 @@ func turn(turns : int) -> void:
 		end.layer_position = \
 			Util.rotate_vector2i(end.default_layer_position, turned_state) + position_adjustment
 		
+		# update the line segment rectangles
+		for i : int in range(0, segment.segment_rects.size()):
+			# note: built-ins are copied by value, so should be re-assigned after manipulation
+			var seg_rect := segment.segment_rects[i]
+			seg_rect.size = seg_rect.size.rotated(angle)
+			seg_rect.position = seg_rect.position.rotated(angle) + Vector2(position_adjustment)
+			# adjust for potential negative sizes
+			if seg_rect.size.x < 0:
+				seg_rect.size.x = abs(seg_rect.size.x)
+				# remove epsilon from position
+				seg_rect.position.x -= round(seg_rect.size.x)
+			if seg_rect.size.y < 0:
+				seg_rect.size.y = abs(seg_rect.size.y)
+				# remove epsilon from position
+				seg_rect.position.y -= round(seg_rect.size.y)
+			segment.segment_rects[i] = seg_rect
+			
 		start.set_level_position(level_position)
 		end.set_level_position(level_position)
+	
+	# rotate the size of the playspace rectangle
+	rect.size = abs(rect.size.rotated(angle))
