@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bbo6xxrspebam" path="res://Scripts/playspace.gd" id="1_altua"]
 [ext_resource type="Script" uid="uid://b4og7va0hatyf" path="res://Scripts/bounded_camera.gd" id="2_6ity8"]
 [ext_resource type="Script" uid="uid://dp3hhgt553i2x" path="res://Scripts/layer.gd" id="3_r8vwo"]
-[ext_resource type="Script" uid="uid://d3caukbg170et" path="res://Scripts/Resource Definitions/circuit_data.gd" id="4_5fnqf"]
+[ext_resource type="Script" uid="uid://d3caukbg170et" path="res://Scripts/Resource Definitions/path_data.gd" id="4_5fnqf"]
 [ext_resource type="Script" uid="uid://ciogh5wk1jw2j" path="res://Scripts/Resource Definitions/integer_line.gd" id="5_efgcv"]
 [ext_resource type="Script" uid="uid://blbxmua7tt4nf" path="res://Scripts/Resource Definitions/layer_data.gd" id="6_juysu"]
 [ext_resource type="Script" uid="uid://dgcvil2fki4os" path="res://Scripts/level.gd" id="7_14a7j"]
@@ -21,7 +21,7 @@ metadata/_custom_type_script = "uid://d3caukbg170et"
 [sub_resource type="Resource" id="Resource_ot2dp"]
 script = ExtResource("6_juysu")
 size = Vector2i(3, 2)
-circuits = Array[ExtResource("4_5fnqf")]([SubResource("Resource_s1fgm")])
+paths = Array[ExtResource("4_5fnqf")]([SubResource("Resource_s1fgm")])
 metadata/_custom_type_script = "uid://blbxmua7tt4nf"
 
 [sub_resource type="Resource" id="Resource_1mxx1"]
@@ -31,14 +31,14 @@ metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
 
 [sub_resource type="Resource" id="Resource_t6prb"]
 script = ExtResource("4_5fnqf")
-color = 1
+type = 1
 segments = Array[ExtResource("5_efgcv")]([SubResource("Resource_1mxx1")])
 metadata/_custom_type_script = "uid://d3caukbg170et"
 
 [sub_resource type="Resource" id="Resource_y0c2t"]
 script = ExtResource("6_juysu")
 size = Vector2i(2, 3)
-circuits = Array[ExtResource("4_5fnqf")]([SubResource("Resource_t6prb")])
+paths = Array[ExtResource("4_5fnqf")]([SubResource("Resource_t6prb")])
 metadata/_custom_type_script = "uid://blbxmua7tt4nf"
 
 [sub_resource type="Resource" id="Resource_rwdny"]
@@ -68,14 +68,14 @@ metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
 
 [sub_resource type="Resource" id="Resource_cpq2q"]
 script = ExtResource("4_5fnqf")
-color = 1
+type = 1
 segments = Array[ExtResource("5_efgcv")]([SubResource("Resource_lpouj"), SubResource("Resource_dcmyu")])
 metadata/_custom_type_script = "uid://d3caukbg170et"
 
 [sub_resource type="Resource" id="Resource_gxmvg"]
 script = ExtResource("6_juysu")
 size = Vector2i(5, 4)
-circuits = Array[ExtResource("4_5fnqf")]([SubResource("Resource_202fc"), SubResource("Resource_cpq2q")])
+paths = Array[ExtResource("4_5fnqf")]([SubResource("Resource_202fc"), SubResource("Resource_cpq2q")])
 metadata/_custom_type_script = "uid://blbxmua7tt4nf"
 
 [node name="Playspace" type="Node2D" unique_id=263223627]

@@ -1,26 +1,26 @@
-## A level is composed of circuit segments that connect to the edges. Its data can be stored
+## A level is composed of path segments that connect to the edges. Its data can be stored
 ## as a LayerData
 class_name Level
 extends AbstractLayer
 
-## A map of circuit color to the corresponding array of segments (the array is untyped because 
+## A map of path type to the corresponding array of segments (the array is untyped because 
 ## nested static typing is not allowed)
-var circuit_segments : Dictionary[Consts.CircuitColor, Array]
+var path_segments : Dictionary[Consts.PathType, Array]
 
-## A map of cap color to all caps of that color (non-typed array of CircuitCaps)
-var circuit_caps : Dictionary[Consts.CircuitColor, Array]
+## A map of cap type to all caps of that type (non-typed array of PathCaps)
+var path_caps : Dictionary[Consts.PathType, Array]
 
 ## all layers that are currently registered to (used inside) this level
 var layers : Array[Layer]
 
 class CapPair:
-	var start : CircuitCap
-	var end : CircuitCap
-	func _init(s : CircuitCap, e : CircuitCap) -> void:
+	var start : PathCap
+	var end : PathCap
+	func _init(s : PathCap, e : PathCap) -> void:
 		start = s
 		end = e
 
-## The circuit caps that need to be connected together to complete the level
+## The path caps that need to be connected together to complete the level
 var level_caps : Array[CapPair]
 
 
@@ -42,44 +42,44 @@ func check_layer_intersection(layer : AbstractLayer) -> void:
 
 
 func _init_segments() -> void:
-	for circuit_data : CircuitData in data.circuits:
-		circuit_segments[circuit_data.color] = circuit_data.create_segments(self)
+	for path_data : PathData in data.paths:
+		path_segments[path_data.type] = path_data.create_segments(self)
 
 
-## create a map of cap to position to related circuit segments
+## create a map of cap to position to related path segments
 func _init_caps() -> void:
 	var all_segments := get_all_segments()
-	for segment : CircuitSegment in all_segments:
+	for segment : PathSegment in all_segments:
 		var start_cap := segment.start_cap
 		start_cap.set_level_position(Vector2i.ZERO)
-		circuit_caps.get_or_add(start_cap.color, []).append(start_cap)
+		path_caps.get_or_add(start_cap.type, []).append(start_cap)
 		
 		var end_cap := segment.end_cap
 		end_cap.set_level_position(Vector2i.ZERO)
-		circuit_caps.get_or_add(end_cap.color, []).append(end_cap)
+		path_caps.get_or_add(end_cap.type, []).append(end_cap)
 		
-	# the first and last caps for each color are the level caps. create a copy of the start so the
+	# the first and last caps for each type are the level caps. create a copy of the start so the
 	# first level segment is treated as connected to it
-	for color : Consts.CircuitColor in circuit_segments.keys():
-		var start_cap := CircuitCap.copy(circuit_segments[color].front().start_cap)
-		var end_cap := (circuit_segments[color].back() as CircuitSegment).end_cap
+	for type : Consts.PathType in path_segments.keys():
+		var start_cap := PathCap.copy(path_segments[type].front().start_cap)
+		var end_cap := (path_segments[type].back() as PathSegment).end_cap
 		level_caps.append(CapPair.new(start_cap, end_cap))
 
 
-## all circuit segments not sorted into colors
-func get_all_segments() -> Array[CircuitSegment]:
-	var segments : Array[CircuitSegment] = []
-	return circuit_segments.keys().reduce(
-		func(accum_segments : Array[CircuitSegment], key : Consts.CircuitColor): 
-			accum_segments.append_array(circuit_segments[key])
+## all path segments not sorted into types
+func get_all_segments() -> Array[PathSegment]:
+	var segments : Array[PathSegment] = []
+	return path_segments.keys().reduce(
+		func(accum_segments : Array[PathSegment], key : Consts.PathType): 
+			accum_segments.append_array(path_segments[key])
 			return accum_segments, segments)
 
 
-func get_all_caps() -> Array[CircuitCap]:
-	var caps : Array[CircuitCap] = []
-	return circuit_caps.keys().reduce(
-		func(accum_caps : Array[CircuitSegment], key : Consts.CircuitColor): 
-			accum_caps.append_array(circuit_segments[key])
+func get_all_caps() -> Array[PathCap]:
+	var caps : Array[PathCap] = []
+	return path_caps.keys().reduce(
+		func(accum_caps : Array[PathSegment], key : Consts.PathType): 
+			accum_caps.append_array(path_segments[key])
 			return accum_caps, caps)
 
 
@@ -88,27 +88,27 @@ func check_complete() -> bool:
 	for cap_pair : CapPair in level_caps:
 		if not caps_connected(cap_pair.start, cap_pair.end): return false
 	
-	# every circuit is connected
+	# every path is connected
 	return true
 
 
-## Traverse the circuit to see if the start and end are connected to each other
-func caps_connected(start : CircuitCap, end : CircuitCap) -> bool:
+## Traverse the path to see if the start and end are connected to each other
+func caps_connected(start : PathCap, end : PathCap) -> bool:
 	# trivial cases
 	if start == null or end == null: return false
 	if start == end: return true
 	if start.sibling == end: return true
-	if not start.color == end.color: return false
+	if not start.type == end.type: return false
 	
-	# accumulate an array of all same-color caps that have the same level position as start
-	var position_share : Array[CircuitCap] = []
-	circuit_caps[start.color].reduce(func(cap_accum, cap): 
+	# accumulate an array of all same-typed caps that have the same level position as start
+	var position_share : Array[PathCap] = []
+	path_caps[start.type].reduce(func(cap_accum, cap): 
 		if cap.level_position == start.level_position: cap_accum.append(cap)
 		return cap_accum
 		, position_share)
 	
 	# iterate through the shared position caps and see if their sibling is connected to the end cap
-	for cap : CircuitCap in position_share:
+	for cap : PathCap in position_share:
 		if cap == start: continue
 		if caps_connected(cap.sibling, end): return true
 	
@@ -118,19 +118,19 @@ func caps_connected(start : CircuitCap, end : CircuitCap) -> bool:
 
 func register_layer(layer : Layer) -> void:
 	if layers.has(layer): return
-	for segment in layer.circuit_segments:
-		circuit_segments.get_or_add(segment.color, []).append(segment)
-		circuit_caps.get_or_add(segment.color, []).append(segment.start_cap)
-		circuit_caps[segment.color].append(segment.end_cap)
+	for segment in layer.path_segments:
+		path_segments.get_or_add(segment.type, []).append(segment)
+		path_caps.get_or_add(segment.type, []).append(segment.start_cap)
+		path_caps[segment.type].append(segment.end_cap)
 	layers.append(layer)
 	print("registered ", layer)
 
 
 func unregister_layer(layer : Layer) -> void:
 	if not layers.has(layer): return
-	for segment in layer.circuit_segments:
-		circuit_segments[segment.color].erase(segment)
-		circuit_caps[segment.color].erase(segment.start_cap)
-		circuit_caps[segment.color].erase(segment.end_cap)
+	for segment in layer.path_segments:
+		path_segments[segment.type].erase(segment)
+		path_caps[segment.type].erase(segment.start_cap)
+		path_caps[segment.type].erase(segment.end_cap)
 	layers.erase(layer)
 	print("unregistered ", layer)

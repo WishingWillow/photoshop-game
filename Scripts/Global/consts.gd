@@ -13,13 +13,13 @@ const WIRE_WIDTH := 5
 ## connect. CAP_RADIUS is the radius of those endpoint circles in game canvas units.
 const CAP_RADIUS := 10
 
-enum CircuitColor { RED, BLUE }
+enum PathType { RED, BLUE }
 
-## This dictionary defines the screen colors that correspond to the enumerated colors a circuit can
+## This dictionary defines the screen colors that correspond to the enumerated typess a path can
 ## take.
-const CircuitColors : Dictionary[CircuitColor, Color] = {
-	CircuitColor.RED : Color("fa7167"),
-	CircuitColor.BLUE : Color("027aff")
+const PathTypes : Dictionary[PathType, Color] = {
+	PathType.RED : Color("fa7167"),
+	PathType.BLUE : Color("027aff")
 }
 
 const GridColors : Dictionary[String, Color] = {

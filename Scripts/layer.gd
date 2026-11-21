@@ -5,7 +5,7 @@ class_name Layer
 extends AbstractLayer
 
 ## An array of segments that's populated using the data in data
-var circuit_segments : Array[CircuitSegment] = []
+var path_segments : Array[PathSegment] = []
 
 @onready var outline := Line2D.new()
 
@@ -44,8 +44,8 @@ func _parse_data() -> void:
 	# wide
 	layer_vertices = Util.get_rectangle_vertices(data.size)
 	outline.points = Util.scale_vec_array_to_unit_size(layer_vertices)
-	for circuit_data : CircuitData in data.circuits:
-		circuit_segments.append_array(circuit_data.create_segments(adjusted_node))
+	for path_data : PathData in data.paths:
+		path_segments.append_array(path_data.create_segments(adjusted_node))
 	
 	#configure outline
 	Util.configure_line(outline)
@@ -79,7 +79,7 @@ func set_level_position(level : Level, pos : Vector2i) -> void:
 	level_transform.position = Util.scale_vec_to_unit_size(pos)
 	level_position = pos
 	#update level position of all caps
-	for segment : CircuitSegment in circuit_segments:
+	for segment : PathSegment in path_segments:
 		segment.start_cap.set_level_position(pos)
 		segment.end_cap.set_level_position(pos)
 
@@ -95,8 +95,8 @@ func turn(turns : int) -> void:
 	var position_adjustment := -Util.rotate_vector2i(layer_vertices[turned_state], turned_state)
 	adjusted_node.position = Util.scale_vec_to_unit_size(position_adjustment)
 	
-	# update level positions of circuit caps
-	for segment : CircuitSegment in circuit_segments:
+	# update level positions of path caps
+	for segment : PathSegment in path_segments:
 		var start := segment.start_cap
 		var end := segment.end_cap
 		start.layer_position = \
