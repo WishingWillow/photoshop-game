@@ -46,10 +46,15 @@ func _init(line_data_in : IntegerLine, type_in : Consts.PathType) -> void:
 	
 	# create rectangles for every line segment in the integer line
 	for i : int in range(0, line_data.points.size() - 1):
-		var rect_size : Vector2 = abs(line_data.points[i + 1] - line_data.points[i])
+		var rect_pos : Vector2 = line_data.points[i]
+		var rect_size : Vector2 = line_data.points[i + 1] - line_data.points[i]
+		# switch position if size is negative
+		if rect_size.x < 0 or rect_size.y < 0:
+			rect_pos = line_data.points[i+1]
+			rect_size = abs(rect_size)
 		# offset size by epsilon to create rectangle with area
 		rect_size += Vector2.ONE * Consts.SEGMENT_WIDTH_EPSILON
-		segment_rects.append(Rect2(line_data.points[i], rect_size))
+		segment_rects.append(Rect2(rect_pos, rect_size))
 
 	
 	start_cap = PathCap.new(line_data.points.front(), type_in)

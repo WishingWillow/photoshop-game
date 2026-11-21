@@ -5,7 +5,7 @@ class_name Layer
 extends AbstractLayer
 
 ## An array of segments that's populated using the data in data
-@export var path_segments : Array[PathSegment] = []
+var path_segments : Array[PathSegment] = []
 
 @onready var outline := Line2D.new()
 
@@ -36,10 +36,17 @@ static func create(data_in : LayerData) -> Layer:
 
 
 func _ready() -> void:
-	_parse_data()
+	parse_data()
 
 
-func _parse_data() -> void:
+func parse_data() -> void:
+	# reset data
+	adjusted_node.queue_free()
+	adjusted_node = Node2D.new()
+	path_segments.clear()
+	outline = Line2D.new()
+	turned_state = 0
+	
 	# all data needs to be scaled by the UNIT_SCALE, otherwise objects may only be a few pixels
 	# wide
 	layer_vertices = Util.get_rectangle_vertices(data.size)
@@ -133,7 +140,124 @@ func turn(turns : int) -> void:
 
 enum {X, Y}
 func slice(axis : int, value : int) -> Layer:
+	if not check_valid_slice(axis, value): return null
+	
+	# split up the layer data by using the segment rectangles
+	
+	var origin_slice_size := rect.size
+	var new_slice_size := rect.size
+	# the dimensions of the slice including the origin
+	origin_slice_size[axis] = value
+	# the dimensions of the new slice
+	new_slice_size[axis] = rect.size[axis] - value
+	
+	var new_slice_position = Vector2i.ZERO
+	# origin of the new slice
+	new_slice_position[axis] = value
+	
+	# add epsilon to sizes to account for epsilons added to segment rectangles
+	new_slice_size += Vector2.ONE * Consts.SEGMENT_WIDTH_EPSILON
+	origin_slice_size += Vector2.ONE * Consts.SEGMENT_WIDTH_EPSILON
+	
+	var origin_slice_rect := Rect2(Vector2.ZERO, origin_slice_size)
+	var new_slice_rect := Rect2(new_slice_position, new_slice_size)
+	
+	# go through segments, and sort them into which slice they are in. If it spans across both,
+	# add the full path segment to an array to split with precision
+	var segments_to_slice : Array[PathSegment] = []
+	var origin_segments : Array[PathSegment] = []
+	var new_segments : Array[PathSegment] = []
+	for segment : PathSegment in path_segments:
+		# NOTE: this doesn't account for 0 length paths (shouldn't show up in game but came across
+		# it in testing
+		for seg_rect : Rect2 in segment.segment_rects:
+			if not origin_slice_rect.encloses(seg_rect):
+				if not new_slice_rect.encloses(seg_rect):
+					origin_segments.erase(segment)
+					new_segments.erase(segment)
+					segments_to_slice.append(segment)
+					break
+				# the segment could be in the new slice
+				if new_segments.is_empty() or not new_segments.back() == segment:
+					new_segments.append(segment)
+			# the segment could be in the origin slice
+			elif origin_segments.is_empty() or not origin_segments.back() == segment:
+				origin_segments.append(segment)
+	
+	# create new LayerDatas and start populating them with known values
+	var origin_data := LayerData.new()
+	origin_data.size = origin_slice_size
+	add_path_data_from_segments(origin_data, Vector2i.ZERO, origin_segments)
+	
+	var new_data := LayerData.new()
+	new_data.size = new_slice_size
+	add_path_data_from_segments(new_data, new_slice_position, new_segments)
+	
+	# now split and sort crossing segments
+	for segment : PathSegment in segments_to_slice:
+		var origin_path := PathData.new()
+		var new_path := PathData.new()
+		var origin_line := IntegerLine.new()
+		var new_line := IntegerLine.new()
+		origin_path.type = segment.type
+		origin_path.segments.append(origin_line)
+		origin_data.paths.append(origin_path)
+		new_path.segments.append(new_line)
+		new_path.type = segment.type
+		new_data.paths.append(new_path)
+		for seg_rect : Rect2 in segment.segment_rects:
+			var start_point := Vector2i(round(seg_rect.position))
+			var start_in_origin : bool = false
+			if origin_slice_rect.has_point(start_point):
+				origin_line.points.append(start_point)
+				start_in_origin = true
+			elif new_slice_rect.has_point(start_point):
+				new_line.points.append(start_point - new_slice_position)
+			var end_point := Vector2i(round(seg_rect.position + seg_rect.size))
+			var end_in_origin : bool = false
+			if origin_slice_rect.has_point(end_point):
+				origin_line.points.append(end_point)
+				end_in_origin = true
+			elif new_slice_rect.has_point(end_point):
+				new_line.points.append(end_point - new_slice_position)
+			
+			# the segment crosses the slice boundary, so new points need to be made
+			if not start_in_origin == end_in_origin:
+				var new_point := start_point
+				new_point[axis] = value
+				# if the start is in the origin, then we should append to the origin line and
+				# prepend to the new line, and vice versa (I think)
+				if start_in_origin:
+					origin_line.points.push_back(new_point)
+					new_line.points.push_front(new_point - new_slice_position)
+				else:
+					origin_line.points.push_front(new_point)
+					new_line.points.push_back(new_point - new_slice_position)
+	
+	data = origin_data
+	parse_data()
+	var new_layer := Layer.new()
+	new_layer.data = new_data
+	new_layer.position = position + Util.scale_vec_to_unit_size(new_slice_position)
+	Playspace.add_layer(new_layer)
 	return self
+
+
+func add_path_data_from_segments(
+	layer_data : LayerData, segment_offset : Vector2i, segments : Array[PathSegment]) -> void:
+	for segment : PathSegment in segments:
+		var path_data := PathData.new()
+		path_data.type = segment.type
+		var line_data := IntegerLine.new()
+		path_data.segments.append(line_data)
+		for seg_rect : Rect2 in segment.segment_rects:
+			line_data.points.append(Vector2i(round(seg_rect.position)) - segment_offset)
+		# add the last point
+		line_data.points.append(Vector2i(round(
+			segment.segment_rects.back().position +\
+			segment.segment_rects.back().size)) -\
+			segment_offset)
+		layer_data.paths.append(path_data)
 
 
 func check_valid_slice(axis : int, value : int) -> bool:

@@ -7,3 +7,5 @@ enum Mirror { NONE, MIRROR_X, MIRROR_Y }
 @export var add_position : Vector2i
 @export var turn : int
 @export var mirror : Mirror
+@export var slice_x : int
+@export var slice_y : int
