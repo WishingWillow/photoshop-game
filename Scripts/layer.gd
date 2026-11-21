@@ -98,7 +98,7 @@ func turn(turns : int) -> void:
 	var position_adjustment := -Util.rotate_vector2i(layer_vertices[turned_state], turned_state)
 	adjusted_node.position = Util.scale_vec_to_unit_size(position_adjustment)
 	
-	# update level positions of path caps
+	# update positions of segments/caps
 	for segment : PathSegment in path_segments:
 		var start := segment.start_cap
 		var end := segment.end_cap
@@ -129,3 +129,34 @@ func turn(turns : int) -> void:
 	
 	# rotate the size of the playspace rectangle
 	rect.size = abs(rect.size.rotated(angle))
+
+
+enum {X, Y}
+func slice(axis : int, value : int) -> Layer:
+	return self
+
+
+func check_valid_slice(axis : int, value : int) -> bool:
+	var other_axis : int = 1 - axis
+	
+	# value must be a line inside of the layer (not on the border or beyond)
+	if value <= 0 or value >= rect.size[axis]:
+		return false
+	
+	# create a rectangle to check for intersection with path segments
+	var slice_pos := Vector2.ZERO
+	var slice_size := Vector2.ONE * Consts.SEGMENT_WIDTH_EPSILON
+	slice_pos[axis] = value
+	slice_size[other_axis] = rect.size[other_axis]
+	var slice_rect := Rect2(slice_pos, slice_size)
+	
+	# look through all layer segments and see if the intersection of this rectangle and any
+	# segment rectangle is larger than epsilon. If it is, the intersection is invalid and slicing
+	# is not allowed
+	for segment : PathSegment in path_segments:
+		for seg_rect : Rect2 in segment.segment_rects:
+			var intersection := slice_rect.intersection(seg_rect)
+			if intersection.size.x > 2 * Consts.SEGMENT_WIDTH_EPSILON \
+			or intersection.size.y > 2 * Consts.SEGMENT_WIDTH_EPSILON:
+				return false
+	return true

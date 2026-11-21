@@ -13,6 +13,8 @@ const WIRE_WIDTH := 5
 ## connect. CAP_RADIUS is the radius of those endpoint circles in game canvas units.
 const CAP_RADIUS := 15
 
+const SEGMENT_WIDTH_EPSILON : float = 0.001
+
 # The enum value here is the same as the types corresponding z index enum value
 enum PathType { RAIL = 0, ROAD = 1 }
 
@@ -29,8 +31,8 @@ const CapColors : Dictionary[PathType, Color] = {
 }
 
 const GridColors : Dictionary[String, Color] = {
-	A = Color(0.312, 0.78, 0.312, 1.0),
-	B = Color(0.44, 1.0, 0.44, 1.0),
+	A = Color(0.345, 0.5, 0.345, 1.0),
+	B = Color(0.331, 0.48, 0.331, 1.0),
 }
 
 enum ZIndex {BACKGROUND = -3, LEVEL_BACKGROUND = -2, LAYER_BORDER = -1, RAIL = 0, ROAD = 1, CAP = 2}

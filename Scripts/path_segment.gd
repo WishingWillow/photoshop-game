@@ -10,8 +10,6 @@ var end_cap : PathCap
 
 var type : Consts.PathType
 
-const SEGMENT_WIDTH_EPSILON : float = 0.001
-
 @export var segment_rects : Array[Rect2]
 
 var line_data : IntegerLine
@@ -50,7 +48,7 @@ func _init(line_data_in : IntegerLine, type_in : Consts.PathType) -> void:
 	for i : int in range(0, line_data.points.size() - 1):
 		var rect_size : Vector2 = abs(line_data.points[i + 1] - line_data.points[i])
 		# offset size by epsilon to create rectangle with area
-		rect_size += Vector2.ONE * SEGMENT_WIDTH_EPSILON
+		rect_size += Vector2.ONE * Consts.SEGMENT_WIDTH_EPSILON
 		segment_rects.append(Rect2(line_data.points[i], rect_size))
 
 	
