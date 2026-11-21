@@ -23,9 +23,14 @@ const PathTexture : Dictionary[PathType, Texture2D] = {
 	PathType.RIVER : preload("res://Assets/river.png")
 }
 
+const CapColors : Dictionary[PathType, Color] = {
+	PathType.ROAD : Color(0.105, 0.099, 0.16, 1.0),
+	PathType.RIVER : Color(0.269, 0.423, 0.69, 1.0)
+}
+
 const GridColors : Dictionary[String, Color] = {
-	A = Color(0.2, 0.2, 0.2),
-	B = Color(0.27, 0.27, 0.27),
+	A = Color(0.312, 0.78, 0.312, 1.0),
+	B = Color(0.44, 1.0, 0.44, 1.0),
 }
 
 enum ZIndex {BACKGROUND = -3, LEVEL_BACKGROUND = -2, LAYER_BORDER = -1, RIVER = 0, ROAD = 1, CAP = 2}
