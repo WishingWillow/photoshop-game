@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://bhevqg2gfadbo"]
+
+[ext_resource type="Script" uid="uid://jvawcp8u00m1" path="res://Tests/test_script.gd" id="1_2a0m8"]
+[ext_resource type="Script" uid="uid://bnh2m3iwas8kl" path="res://Tests/move.gd" id="2_ty2g0"]
+[ext_resource type="Script" uid="uid://dp3hhgt553i2x" path="res://Scripts/layer.gd" id="3_d0w0s"]
+[ext_resource type="Script" uid="uid://d3caukbg170et" path="res://Scripts/Resource Definitions/path_data.gd" id="4_uerem"]
+[ext_resource type="Script" uid="uid://ciogh5wk1jw2j" path="res://Scripts/Resource Definitions/integer_line.gd" id="5_wclam"]
+[ext_resource type="Script" uid="uid://bbo6xxrspebam" path="res://Scripts/playspace.gd" id="6_2a0m8"]
+[ext_resource type="Script" uid="uid://blbxmua7tt4nf" path="res://Scripts/Resource Definitions/layer_data.gd" id="6_iyvmv"]
+[ext_resource type="Script" uid="uid://dgcvil2fki4os" path="res://Scripts/level.gd" id="7_gjtxr"]
+[ext_resource type="Script" uid="uid://b4og7va0hatyf" path="res://Scripts/bounded_camera.gd" id="7_ty2g0"]
+
+[sub_resource type="Resource" id="Resource_2a0m8"]
+script = ExtResource("2_ty2g0")
+layer_path = NodePath("Layer1")
+slice_y = 3
+metadata/_custom_type_script = "uid://bnh2m3iwas8kl"
+
+[sub_resource type="Resource" id="Resource_d0w0s"]
+script = ExtResource("2_ty2g0")
+layer_path = NodePath("Layer1")
+slice_x = 1
+metadata/_custom_type_script = "uid://bnh2m3iwas8kl"
+
+[sub_resource type="Resource" id="Resource_qiicd"]
+script = ExtResource("5_wclam")
+points = Array[Vector2i]([Vector2i(0, 2), Vector2i(2, 2)])
+metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
+
+[sub_resource type="Resource" id="Resource_gjtxr"]
+script = ExtResource("5_wclam")
+points = Array[Vector2i]([Vector2i(4, 2), Vector2i(5, 2)])
+metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
+
+[sub_resource type="Resource" id="Resource_ty2g0"]
+script = ExtResource("4_uerem")
+segments = Array[ExtResource("5_wclam")]([SubResource("Resource_qiicd"), SubResource("Resource_gjtxr")])
+metadata/_custom_type_script = "uid://d3caukbg170et"
+
+[sub_resource type="Resource" id="Resource_uerem"]
+script = ExtResource("5_wclam")
+points = Array[Vector2i]([Vector2i(3, 4), Vector2i(3, 0)])
+metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
+
+[sub_resource type="Resource" id="Resource_wclam"]
+script = ExtResource("4_uerem")
+type = 1
+segments = Array[ExtResource("5_wclam")]([SubResource("Resource_uerem")])
+metadata/_custom_type_script = "uid://d3caukbg170et"
+
+[sub_resource type="Resource" id="Resource_iyvmv"]
+script = ExtResource("6_iyvmv")
+size = Vector2i(5, 4)
+paths = Array[ExtResource("4_uerem")]([SubResource("Resource_ty2g0"), SubResource("Resource_wclam")])
+metadata/_custom_type_script = "uid://blbxmua7tt4nf"
+
+[sub_resource type="Resource" id="Resource_gq568"]
+script = ExtResource("6_iyvmv")
+size = Vector2i(10, 10)
+metadata/_custom_type_script = "uid://blbxmua7tt4nf"
+
+[node name="test2" type="Node2D" unique_id=2127906253 node_paths=PackedStringArray("level", "layers")]
+script = ExtResource("1_2a0m8")
+level = NodePath("Level")
+layers = [NodePath("Layer1")]
+moves = Array[ExtResource("2_ty2g0")]([SubResource("Resource_2a0m8"), SubResource("Resource_d0w0s")])
+
+[node name="Layer1" type="Node2D" parent="." unique_id=577652057]
+script = ExtResource("3_d0w0s")
+data = SubResource("Resource_iyvmv")
+metadata/_custom_type_script = "uid://dp3hhgt553i2x"
+
+[node name="Playspace" type="Node2D" parent="." unique_id=263223627]
+z_index = -3
+z_as_relative = false
+script = ExtResource("6_2a0m8")
+
+[node name="Camera2D" type="Camera2D" parent="Playspace" unique_id=1777739184]
+anchor_mode = 0
+limit_enabled = false
+editor_draw_drag_margin = true
+script = ExtResource("7_ty2g0")
+
+[node name="Level" type="Node2D" parent="." unique_id=775329786]
+script = ExtResource("7_gjtxr")
+data = SubResource("Resource_gq568")
+metadata/_custom_type_script = "uid://dgcvil2fki4os"

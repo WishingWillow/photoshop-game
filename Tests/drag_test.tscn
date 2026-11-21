@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://jvawcp8u00m1" path="res://Tests/test_script.gd" id="1_jm87r"]
 [ext_resource type="Script" uid="uid://dp3hhgt553i2x" path="res://Scripts/layer.gd" id="3_kp3qp"]
-[ext_resource type="Script" uid="uid://d3caukbg170et" path="res://Scripts/Resource Definitions/circuit_data.gd" id="4_6b08c"]
+[ext_resource type="Script" uid="uid://d3caukbg170et" path="res://Scripts/Resource Definitions/path_data.gd" id="4_6b08c"]
 [ext_resource type="Script" uid="uid://ciogh5wk1jw2j" path="res://Scripts/Resource Definitions/integer_line.gd" id="5_dxhwi"]
 [ext_resource type="Script" uid="uid://blbxmua7tt4nf" path="res://Scripts/Resource Definitions/layer_data.gd" id="6_dd4jn"]
 [ext_resource type="Script" uid="uid://dgcvil2fki4os" path="res://Scripts/level.gd" id="7_3jai2"]
@@ -20,7 +20,7 @@ metadata/_custom_type_script = "uid://d3caukbg170et"
 [sub_resource type="Resource" id="Resource_ot2dp"]
 script = ExtResource("6_dd4jn")
 size = Vector2i(3, 2)
-circuits = Array[ExtResource("4_6b08c")]([SubResource("Resource_s1fgm")])
+paths = Array[ExtResource("4_6b08c")]([SubResource("Resource_s1fgm")])
 metadata/_custom_type_script = "uid://blbxmua7tt4nf"
 
 [sub_resource type="Resource" id="Resource_1mxx1"]
@@ -30,14 +30,14 @@ metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
 
 [sub_resource type="Resource" id="Resource_t6prb"]
 script = ExtResource("4_6b08c")
-color = 1
+type = 1
 segments = Array[ExtResource("5_dxhwi")]([SubResource("Resource_1mxx1")])
 metadata/_custom_type_script = "uid://d3caukbg170et"
 
 [sub_resource type="Resource" id="Resource_y0c2t"]
 script = ExtResource("6_dd4jn")
 size = Vector2i(2, 3)
-circuits = Array[ExtResource("4_6b08c")]([SubResource("Resource_t6prb")])
+paths = Array[ExtResource("4_6b08c")]([SubResource("Resource_t6prb")])
 metadata/_custom_type_script = "uid://blbxmua7tt4nf"
 
 [sub_resource type="Resource" id="Resource_rwdny"]
@@ -67,14 +67,14 @@ metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
 
 [sub_resource type="Resource" id="Resource_cpq2q"]
 script = ExtResource("4_6b08c")
-color = 1
+type = 1
 segments = Array[ExtResource("5_dxhwi")]([SubResource("Resource_lpouj"), SubResource("Resource_dcmyu")])
 metadata/_custom_type_script = "uid://d3caukbg170et"
 
 [sub_resource type="Resource" id="Resource_gxmvg"]
 script = ExtResource("6_dd4jn")
 size = Vector2i(5, 4)
-circuits = Array[ExtResource("4_6b08c")]([SubResource("Resource_202fc"), SubResource("Resource_cpq2q")])
+paths = Array[ExtResource("4_6b08c")]([SubResource("Resource_202fc"), SubResource("Resource_cpq2q")])
 metadata/_custom_type_script = "uid://blbxmua7tt4nf"
 
 [node name="test2" type="Node2D" unique_id=2127906253 node_paths=PackedStringArray("level", "layers")]

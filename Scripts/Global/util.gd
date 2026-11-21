@@ -15,7 +15,7 @@ static func scale_vec_array_to_unit_size(vector_data : Array[Vector2i]) -> Packe
 	return vector_data.map(scale_vec_to_unit_size)
 
 
-## set the styling of the incoming line
+## set the styling of the incoming line TODO: phase out
 static func configure_line(line : Line2D) -> void:
 	line.joint_mode = Line2D.LINE_JOINT_ROUND
 	line.round_precision = 20

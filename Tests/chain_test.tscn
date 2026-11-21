@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://jvawcp8u00m1" path="res://Tests/test_script.gd" id="1_qxghr"]
 [ext_resource type="Script" uid="uid://bnh2m3iwas8kl" path="res://Tests/move.gd" id="2_b6f7i"]
 [ext_resource type="Script" uid="uid://dp3hhgt553i2x" path="res://Scripts/layer.gd" id="3_ifj3r"]
-[ext_resource type="Script" uid="uid://d3caukbg170et" path="res://Scripts/Resource Definitions/circuit_data.gd" id="4_fagl4"]
+[ext_resource type="Script" uid="uid://d3caukbg170et" path="res://Scripts/Resource Definitions/path_data.gd" id="4_fagl4"]
 [ext_resource type="Script" uid="uid://ciogh5wk1jw2j" path="res://Scripts/Resource Definitions/integer_line.gd" id="5_xis7b"]
 [ext_resource type="Script" uid="uid://blbxmua7tt4nf" path="res://Scripts/Resource Definitions/layer_data.gd" id="6_mrobk"]
 [ext_resource type="Script" uid="uid://dgcvil2fki4os" path="res://Scripts/level.gd" id="7_w50or"]
@@ -46,14 +46,14 @@ metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
 
 [sub_resource type="Resource" id="Resource_fnxrk"]
 script = ExtResource("4_fagl4")
-color = 1
+type = 1
 segments = Array[ExtResource("5_xis7b")]([SubResource("Resource_xqmv5")])
 metadata/_custom_type_script = "uid://d3caukbg170et"
 
 [sub_resource type="Resource" id="Resource_ot2dp"]
 script = ExtResource("6_mrobk")
 size = Vector2i(2, 3)
-circuits = Array[ExtResource("4_fagl4")]([SubResource("Resource_s1fgm"), SubResource("Resource_fnxrk")])
+paths = Array[ExtResource("4_fagl4")]([SubResource("Resource_s1fgm"), SubResource("Resource_fnxrk")])
 metadata/_custom_type_script = "uid://blbxmua7tt4nf"
 
 [sub_resource type="Resource" id="Resource_0xe2g"]
@@ -74,7 +74,7 @@ metadata/_custom_type_script = "uid://d3caukbg170et"
 [sub_resource type="Resource" id="Resource_0ggpj"]
 script = ExtResource("6_mrobk")
 size = Vector2i(10, 10)
-circuits = Array[ExtResource("4_fagl4")]([SubResource("Resource_dhbt7")])
+paths = Array[ExtResource("4_fagl4")]([SubResource("Resource_dhbt7")])
 metadata/_custom_type_script = "uid://blbxmua7tt4nf"
 
 [node name="test" type="Node2D" unique_id=2127906253 node_paths=PackedStringArray("level", "layers")]

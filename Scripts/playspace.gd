@@ -7,10 +7,17 @@ const PLAYSPACE_SCALE : int = 2
 
 var playspace_size : Vector2
 
+static var instance : Playspace
+
+static func add_layer(layer : AbstractLayer) -> void:
+	instance.add_child(layer)
+	layer.snap_to_playspace()
+
 
 ## set size when entering tree so children have access to it on _ready
 func _enter_tree() -> void:
 	playspace_size = get_viewport_rect().size * PLAYSPACE_SCALE
+	instance = self
 
 
 func _ready() -> void:
