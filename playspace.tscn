@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bbo6xxrspebam" path="res://Scripts/playspace.gd" id="1_altua"]
 [ext_resource type="Script" uid="uid://b4og7va0hatyf" path="res://Scripts/bounded_camera.gd" id="2_6ity8"]
+[ext_resource type="Script" uid="uid://06i3p7c2u4jh" path="res://test_2.gd" id="3_5fnqf"]
 [ext_resource type="Script" uid="uid://dp3hhgt553i2x" path="res://Scripts/layer.gd" id="3_r8vwo"]
 [ext_resource type="Script" uid="uid://d3caukbg170et" path="res://Scripts/Resource Definitions/path_data.gd" id="4_5fnqf"]
 [ext_resource type="Script" uid="uid://ciogh5wk1jw2j" path="res://Scripts/Resource Definitions/integer_line.gd" id="5_efgcv"]
@@ -106,9 +107,13 @@ limit_enabled = false
 editor_draw_drag_margin = true
 script = ExtResource("2_6ity8")
 
-[node name="test2" type="Node2D" parent="." unique_id=2127906253]
+[node name="test2" type="Node2D" parent="." unique_id=2127906253 node_paths=PackedStringArray("level", "layers")]
+script = ExtResource("3_5fnqf")
+level = NodePath("Level")
+layers = [NodePath("Layer1"), NodePath("Layer2")]
 
 [node name="Layer1" type="Node2D" parent="test2" unique_id=577652057]
+visible = false
 script = ExtResource("3_r8vwo")
 data = SubResource("Resource_ot2dp")
 metadata/_custom_type_script = "uid://dp3hhgt553i2x"
@@ -119,6 +124,7 @@ data = SubResource("Resource_efgcv")
 metadata/_custom_type_script = "uid://dp3hhgt553i2x"
 
 [node name="Layer2" type="Node2D" parent="test2" unique_id=1073684216]
+visible = false
 script = ExtResource("3_r8vwo")
 data = SubResource("Resource_y0c2t")
 metadata/_custom_type_script = "uid://dp3hhgt553i2x"

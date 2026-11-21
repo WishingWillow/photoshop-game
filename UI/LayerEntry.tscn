@@ -6,6 +6,7 @@
 custom_minimum_size = Vector2(0, 160)
 offset_right = 200.0
 offset_bottom = 200.0
+mouse_filter = 2
 script = ExtResource("1_yleoj")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=17887702]
