@@ -39,7 +39,7 @@ func _draw() -> void:
 	# draw the endcaps on the wire segment to make the points where segments can connect to 
 	# each other easily identifiable.
 	draw_circle(
-		Util.scale_vec_to_unit_size(layer_position), Consts.CAP_RADIUS, Consts.PathTypes[type])
+		Util.scale_vec_to_unit_size(layer_position), Consts.CAP_RADIUS, Color.BLACK)
 
 
 ## set the position of the cap in the level given the position of its layer

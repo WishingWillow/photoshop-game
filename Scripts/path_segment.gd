@@ -12,11 +12,16 @@ var type : Consts.PathType
 
 func _init(line_data : IntegerLine, type_in : Consts.PathType) -> void:
 	var line := Line2D.new()
-	Util.configure_line(line)
 	line.points= Util.scale_vec_array_to_unit_size(line_data.points)
 	
 	type = type_in
-	line.default_color = Consts.PathTypes[type]
+	line.texture = Consts.PathTexture[type]
+	line.texture_mode = Line2D.LINE_TEXTURE_TILE
+	line.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+	line.width = Consts.UNIT_SCALE
+	line.joint_mode = Line2D.LINE_JOINT_ROUND
+	line.round_precision = 5
+	
 	
 	start_cap = PathCap.new(line_data.points.front(), type_in)
 	add_child(start_cap)
@@ -31,5 +36,5 @@ func _init(line_data : IntegerLine, type_in : Consts.PathType) -> void:
 	
 	add_child(line)
 	
-	z_index = Consts.ZIndex.WIRE
+	z_index = type
 	z_as_relative = false
