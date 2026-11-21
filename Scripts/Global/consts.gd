@@ -11,21 +11,21 @@ const WIRE_WIDTH := 5
 
 ## The ends of wire segments have round "caps" that signify where wires on different layers can 
 ## connect. CAP_RADIUS is the radius of those endpoint circles in game canvas units.
-const CAP_RADIUS := 25
+const CAP_RADIUS := 15
 
 # The enum value here is the same as the types corresponding z index enum value
-enum PathType { RIVER = 0, ROAD = 1 }
+enum PathType { RAIL = 0, ROAD = 1 }
 
 ## This dictionary defines the textures that correspond to the enumerated types a path can
 ## take.
 const PathTexture : Dictionary[PathType, Texture2D] = {
 	PathType.ROAD : preload("res://Assets/road.png"),
-	PathType.RIVER : preload("res://Assets/river.png")
+	PathType.RAIL : preload("res://Assets/rail.png")
 }
 
 const CapColors : Dictionary[PathType, Color] = {
 	PathType.ROAD : Color(0.105, 0.099, 0.16, 1.0),
-	PathType.RIVER : Color(0.269, 0.423, 0.69, 1.0)
+	PathType.RAIL : Color(0.105, 0.099, 0.16, 1.0)
 }
 
 const GridColors : Dictionary[String, Color] = {
@@ -33,4 +33,4 @@ const GridColors : Dictionary[String, Color] = {
 	B = Color(0.44, 1.0, 0.44, 1.0),
 }
 
-enum ZIndex {BACKGROUND = -3, LEVEL_BACKGROUND = -2, LAYER_BORDER = -1, RIVER = 0, ROAD = 1, CAP = 2}
+enum ZIndex {BACKGROUND = -3, LEVEL_BACKGROUND = -2, LAYER_BORDER = -1, RAIL = 0, ROAD = 1, CAP = 2}
