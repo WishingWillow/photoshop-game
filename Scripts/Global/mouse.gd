@@ -77,7 +77,7 @@ func _input(event: InputEvent) -> void:
 				# dragging events should happen here
 				press_event("drag")
 				for node : Node2D in _drag_nodes:
-					node.position += (mouse_position - drag_position)
+					node.position += (mouse_position - drag_position) / Playspace.camera.zoom
 				drag_position = mouse_position
 			
 			MouseState.DRAG_RELEASE:

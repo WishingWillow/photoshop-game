@@ -6,6 +6,8 @@ var playspace_size : Vector2
 
 static var instance : Playspace
 
+static var camera : Camera2D
+
 static func add_layer(layer : AbstractLayer) -> void:
 	instance.add_child(layer)
 	layer.snap_to_playspace()
@@ -38,6 +40,7 @@ func initialize() -> void:
 
 func _ready() -> void:
 	instance = self
+	camera = $Camera2D
 	call_deferred("initialize")
 
 
