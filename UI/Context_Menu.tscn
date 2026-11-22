@@ -1,7 +1,10 @@
 [gd_scene format=3 uid="uid://df2w85qbujn3x"]
 
+[ext_resource type="Script" uid="uid://ryxmaljb8pav" path="res://UI/UI Scripts/context_menu.gd" id="1_rimgc"]
+
 [node name="ContextMenu" type="PopupMenu" unique_id=1330774152]
 oversampling_override = 1.0
+visible = true
 item_count = 3
 item_0/text = "Rotate"
 item_0/id = 0
@@ -9,6 +12,7 @@ item_1/text = "Slice"
 item_1/id = 1
 item_2/text = "Mirror"
 item_2/id = 2
+script = ExtResource("1_rimgc")
 
 [node name="RotateMenu" type="PopupMenu" parent="." unique_id=244933969]
 oversampling_override = 1.0

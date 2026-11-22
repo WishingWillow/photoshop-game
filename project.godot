@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.7", "Mobile")
 [autoload]
 
 Mouse="*uid://kc0sv4j0seir"
+LayerMenu="*uid://df2w85qbujn3x"
 
 [display]
 

@@ -82,7 +82,7 @@ func parse_data() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if (!(mouse_over or mouse_down)): return
 	if (event.is_action_pressed("context_menu")):
-		UILogic.show_layer_context_menu(self)
+		LayerMenu.popup_menu(self)
 	super(event)
 
 

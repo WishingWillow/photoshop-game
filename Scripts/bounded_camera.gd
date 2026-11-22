@@ -29,6 +29,8 @@ func bounded_drag(mouse_delta : Vector2) -> void:
 
 
 func _ready() -> void:
+	# setup_limits() needs the playspace size, which is already set on a deferred call, so this
+	# should be *extra* deferred
 	var defer_defer : Callable = func(): call_deferred("setup_limits")
 	defer_defer.call_deferred()
 
