@@ -45,8 +45,8 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 	
 	placed_layer.position = (Vector2(grid_position) * Consts.UNIT_SCALE)
 	
-	var source_entry: Control = data["source_entry"]
-	source_entry.queue_free()
+	#var source_entry: Control = data["source_entry"]
+	#source_entry.queue_free()
 
 func container_to_playspace(container_position: Vector2) -> Vector2:
 	var viewport_position: Vector2 = (container_position * Vector2(subviewport.size) / size)
@@ -73,70 +73,6 @@ func _gui_input(event: InputEvent) -> void:
 				accept_event()
 				return
 
-		return
-	if moving_layer != null:
-		return
-
-	if event is InputEventMouseButton:
-		if event.button_index != MOUSE_BUTTON_LEFT or not event.pressed:
-			return
-
-		var mouse_pos: Vector2 = container_to_playspace(event.position)
-
-		for i in range(placed_layers.size() - 1, -1, -1):
-			var layer: Layer = placed_layers[i]
-		
-			if not is_instance_valid(layer):
-				continue
-
-			if layer.data == null:
-				continue
-
-			var local_pos: Vector2 = layer.adjusted_node.to_local(playspace.to_global(mouse_pos))
-			var layer_size: Vector2 = (Vector2(layer.data.size) * Consts.UNIT_SCALE)
-			var bounds := Rect2(Vector2.ZERO, layer_size)
-			
-			if bounds.has_point(local_pos):
-				moving_layer = layer
-				grab_offset = mouse_pos - layer.position
-				original_position = layer.position
-				
-				accept_event()
-				return
-
-func _input(event: InputEvent) -> void:
-	if not is_instance_valid(moving_layer):
-		moving_layer = null
-		return
-
-	if not event is InputEventMouse:
-		return
-
-	var container_pos: Vector2 = (get_global_transform_with_canvas().affine_inverse() * event.position)
-	var mouse_pos: Vector2 = container_to_playspace(container_pos)
-
-	if event is InputEventMouseMotion:
-		moving_layer.position = mouse_pos - grab_offset
-
-	elif event is InputEventMouseButton:
-		if event.button_index != MOUSE_BUTTON_LEFT or event.pressed:
-			return
-
-		var inside_playspace := Rect2(Vector2.ZERO, size).has_point(container_pos)
-
-		if inside_playspace:
-			var desired_pos: Vector2 = mouse_pos - grab_offset
-			var grid_position := Vector2i(
-				roundi(desired_pos.x / Consts.UNIT_SCALE),
-				roundi(desired_pos.y / Consts.UNIT_SCALE)
-			)
-			
-			moving_layer.position = (Vector2(grid_position) * Consts.UNIT_SCALE)
-
-		else:
-			moving_layer.position = original_position
-
-		moving_layer = null
 
 func show_layer_context_menu(clicked_layer: Layer) -> void:
 	if context_menu_scene == null:
