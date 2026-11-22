@@ -4,24 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://tug4n7iywtad" path="res://Assets/settings_button.png" id="2_nm1m0"]
 [ext_resource type="Script" uid="uid://boaqxhya5wbs" path="res://UI/UI Scripts/settings_button.gd" id="3_cbfhl"]
 [ext_resource type="Script" uid="uid://8tqddc3nw5e5" path="res://UI/UI Scripts/playspace_container.gd" id="4_3sbvi"]
+[ext_resource type="PackedScene" uid="uid://bo0yqon5e84nu" path="res://UI/SettingsMenu.tscn" id="4_4fiuh"]
 [ext_resource type="PackedScene" uid="uid://cke8jgko6uqrn" path="res://playspace.tscn" id="4_hat8c"]
 [ext_resource type="Script" uid="uid://f7chq1kajgdl" path="res://UI/UI Scripts/layer_list.gd" id="8_cbfhl"]
 [ext_resource type="PackedScene" uid="uid://by8h4cdi166l8" path="res://UI/LayerEntry.tscn" id="9_4fiuh"]
-
-[sub_resource type="PackedScene" id="PackedScene_c7tqi"]
-_bundled = {
-"conn_count": 0,
-"conns": PackedInt32Array(),
-"editable_instances": [],
-"id_paths": [],
-"names": PackedStringArray("SettingsMenu", "oversampling_override", "size", "visible", "PopupMenu", "VBoxContainer", "offset_left", "offset_top", "offset_right", "offset_bottom", "Label", "layout_mode", "size_flags_vertical", "text", "HSlider"),
-"node_count": 4,
-"node_ids": PackedInt32Array(1363237933, 107620621, 181710799, 1026345189),
-"node_paths": [],
-"nodes": PackedInt32Array(-1, -1, 4, 0, -1, 3, 1, 0, 2, 1, 3, 2, 0, 0, 0, 5, 5, -1, 4, 6, 3, 7, 3, 8, 4, 9, 5, 0, 1, 0, 10, 10, -1, 3, 11, 6, 12, 7, 13, 8, 0, 1, 0, 14, 14, -1, 1, 11, 6, 0),
-"variants": [1.0, Vector2i(127, 100), true, 4.0, 123.0, 96.0, 2, 0, "Music Volume"],
-"version": 3
-}
 
 [node name="UI" type="Control" unique_id=1096489841]
 layout_mode = 3
@@ -33,6 +19,7 @@ grow_vertical = 2
 mouse_filter = 1
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1864066535]
+unique_name_in_owner = true
 stream = ExtResource("1_3sbvi")
 autoplay = true
 
@@ -76,7 +63,7 @@ size_flags_horizontal = 3
 layout_mode = 2
 icon = ExtResource("2_nm1m0")
 script = ExtResource("3_cbfhl")
-settings_menu_scene = SubResource("PackedScene_c7tqi")
+settings_menu_scene = ExtResource("4_4fiuh")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1098168033]
 layout_mode = 2
