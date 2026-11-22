@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="LayerData" format=3 uid="uid://nliyffw5blpr"]
+
+[ext_resource type="Script" uid="uid://d3caukbg170et" path="res://Scripts/Resource Definitions/path_data.gd" id="1_l40ls"]
+[ext_resource type="Script" uid="uid://ciogh5wk1jw2j" path="res://Scripts/Resource Definitions/integer_line.gd" id="2_6f7yq"]
+[ext_resource type="Script" uid="uid://blbxmua7tt4nf" path="res://Scripts/Resource Definitions/layer_data.gd" id="2_ji8k0"]
+
+[sub_resource type="Resource" id="Resource_srvco"]
+script = ExtResource("2_6f7yq")
+points = Array[Vector2i]([Vector2i(0, 1), Vector2i(3, 1)])
+metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
+
+[sub_resource type="Resource" id="Resource_x52vx"]
+script = ExtResource("1_l40ls")
+segments = Array[ExtResource("2_6f7yq")]([SubResource("Resource_srvco")])
+metadata/_custom_type_script = "uid://d3caukbg170et"
+
+[sub_resource type="Resource" id="Resource_3gxek"]
+script = ExtResource("2_6f7yq")
+points = Array[Vector2i]([Vector2i(4, 0), Vector2i(4, 3)])
+metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
+
+[sub_resource type="Resource" id="Resource_73u20"]
+script = ExtResource("1_l40ls")
+type = 1
+segments = Array[ExtResource("2_6f7yq")]([SubResource("Resource_3gxek")])
+metadata/_custom_type_script = "uid://d3caukbg170et"
+
+[resource]
+script = ExtResource("2_ji8k0")
+size = Vector2i(5, 3)
+paths = Array[ExtResource("1_l40ls")]([SubResource("Resource_x52vx"), SubResource("Resource_73u20")])
+metadata/_custom_type_script = "uid://blbxmua7tt4nf"

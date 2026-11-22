@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="LayerData" format=3 uid="uid://dcmmkk0cmvvru"]
+
+[ext_resource type="Script" uid="uid://d3caukbg170et" path="res://Scripts/Resource Definitions/path_data.gd" id="1_2ahs7"]
+[ext_resource type="Script" uid="uid://blbxmua7tt4nf" path="res://Scripts/Resource Definitions/layer_data.gd" id="2_ktj66"]
+
+[resource]
+script = ExtResource("2_ktj66")
+metadata/_custom_type_script = "uid://blbxmua7tt4nf"
