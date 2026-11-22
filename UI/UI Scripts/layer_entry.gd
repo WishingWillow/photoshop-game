@@ -1,14 +1,15 @@
+class_name LayerEntry
 extends PanelContainer
 
 @onready var preview_viewport: SubViewport = $MarginContainer/PreviewContainer/PreviewViewport
 @onready var preview: Node2D = $MarginContainer/PreviewContainer/PreviewViewport/Preview
 
-var source_layer: Layer
-var preview_region: Rect2 = Rect2()
 
-func setup(layer: Layer) -> void:
-	var data: LayerData = layer.data
-	source_layer = layer
+var preview_region: Rect2 = Rect2()
+var layer_data : LayerData
+
+func setup(data: LayerData) -> void:
+	layer_data = data
 	var preview_layer := Layer.create(data)
 	
 	preview.add_child(preview_layer) 
@@ -26,10 +27,7 @@ func setup(layer: Layer) -> void:
 	
 	
 func _get_drag_data(_at_position: Vector2) -> Variant:
-	if not is_instance_valid(source_layer):
-		return null
-	
-	if source_layer.data == null:
+	if layer_data == null:
 		return null
 	
 	if preview_region.size == Vector2.ZERO:
@@ -52,4 +50,4 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 	preview_image.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	set_drag_preview(preview_image)
 
-	return source_layer.data
+	return layer_data

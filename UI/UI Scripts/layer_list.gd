@@ -2,20 +2,25 @@ extends VBoxContainer
 
 @export var layer_entry_scene: PackedScene
 
-const CONTEXT_MENU_SCENE = preload("res://UI/Context_Menu.tscn")
+const layers : Array[LayerData] = [
+	preload("res://Assets/Resources/Layers/layerA.tres"),
+	preload("res://Assets/Resources/Layers/layerB.tres"),
+	preload("res://Assets/Resources/Layers/layerC.tres"),
+	preload("res://Assets/Resources/Layers/layerD.tres"),
+	preload("res://Assets/Resources/Layers/layerE.tres"),
+	preload("res://Assets/Resources/Layers/layerF.tres"),
+	preload("res://Assets/Resources/Layers/layerG.tres"),
+]
 
-var selected_layer: PanelContainer
-var active_menu: PopupMenu
 
-func populate_layers(layers: Array[Layer]) -> void:
+func _ready() -> void:
 	# Clear existing entries
 	for child in get_children():
 		remove_child(child)
 		child.queue_free()
 
 	# Generate an entry for every layer
-	for layer : Layer in layers:
-		var entry = layer_entry_scene.instantiate()
-		
+	for layer_data : LayerData in layers:
+		var entry : LayerEntry = layer_entry_scene.instantiate()
 		add_child(entry)
-		entry.setup(layer)
+		entry.setup(layer_data)
