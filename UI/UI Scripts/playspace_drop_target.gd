@@ -3,6 +3,8 @@ extends SubViewportContainer
 @onready var subviewport: SubViewport = $SubViewport
 @onready var playspace: Playspace = $SubViewport/Playspace
 
+@export var context_menu_scene: PackedScene
+
 var placed_layers: Array[Layer] = []
 var moving_layer: Layer = null
 var grab_offset: Vector2 = Vector2.ZERO
@@ -52,6 +54,29 @@ func container_to_playspace(container_position: Vector2) -> Vector2:
 	return (playspace.get_global_transform_with_canvas().affine_inverse() * viewport_position)
 	
 func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+			var mouse_pos: Vector2 = container_to_playspace(
+				event.position
+			)
+			for i in range(placed_layers.size() - 1, -1, -1):
+				var layer: Layer = placed_layers[i]
+				
+				if not is_instance_valid(layer):
+					continue
+				if layer.data == null:
+					continue
+					
+				var local_pos: Vector2 = layer.adjusted_node.to_local(playspace.to_global(mouse_pos))
+				var layer_size: Vector2 = (Vector2(layer.data.size) * Consts.UNIT_SCALE)
+				var bounds := Rect2(Vector2.ZERO, layer_size)
+				
+				if bounds.has_point(local_pos):
+					show_layer_context_menu(layer)
+					accept_event()
+					return
+
+			return
 	if moving_layer != null:
 		return
 
@@ -115,3 +140,23 @@ func _input(event: InputEvent) -> void:
 			moving_layer.position = original_position
 
 		moving_layer = null
+
+func show_layer_context_menu(clicked_layer: Layer) -> void:
+	if context_menu_scene == null:
+		return
+	
+	var menu_instance := context_menu_scene.instantiate()
+
+	get_tree().root.add_child(menu_instance)
+
+	menu_instance.id_pressed.connect(
+		func(id: int) -> void:
+			print("Selected option: ", id)
+			print("Target layer: ", clicked_layer.name)
+	)
+
+	menu_instance.popup_hide.connect(menu_instance.queue_free)
+
+	var mouse_position := Vector2i(get_viewport().get_mouse_position())
+
+	menu_instance.popup_on_parent(Rect2i(mouse_position, Vector2i.ZERO))

@@ -119,6 +119,7 @@ data = SubResource("Resource_ot2dp")
 metadata/_custom_type_script = "uid://dp3hhgt553i2x"
 
 [node name="Layer3" type="Node2D" parent="test2" unique_id=1206292301]
+visible = false
 script = ExtResource("3_r8vwo")
 data = SubResource("Resource_efgcv")
 metadata/_custom_type_script = "uid://dp3hhgt553i2x"

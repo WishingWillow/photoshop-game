@@ -1,16 +1,30 @@
 [gd_scene format=3 uid="uid://df2w85qbujn3x"]
 
-[node name="ContextMenu" type="Control" unique_id=2135237841]
-layout_mode = 3
-anchors_preset = 0
-
-[node name="PopupMenu" type="PopupMenu" parent="." unique_id=1178478344]
+[node name="ContextMenu" type="PopupMenu" unique_id=1330774152]
 oversampling_override = 1.0
-visible = true
 item_count = 3
 item_0/text = "Rotate"
 item_0/id = 0
 item_1/text = "Slice"
 item_1/id = 1
 item_2/text = "Mirror"
+item_2/id = 2
+
+[node name="RotateMenu" type="PopupMenu" parent="." unique_id=244933969]
+oversampling_override = 1.0
+item_count = 3
+item_0/text = "90°"
+item_0/id = 0
+item_1/text = "180°"
+item_1/id = 1
+item_2/text = "270°"
+item_2/id = 2
+
+[node name="MirrorMenu" type="PopupMenu" parent="." unique_id=1074009373]
+item_count = 3
+item_0/text = "X"
+item_0/id = 0
+item_1/text = "Y"
+item_1/id = 1
+item_2/text = "Y=X"
 item_2/id = 2

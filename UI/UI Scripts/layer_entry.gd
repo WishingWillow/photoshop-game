@@ -17,9 +17,12 @@ func setup(layer: Layer) -> void:
 	if layer_size.x <= 0 or layer_size.y <= 0:
 		return
 
-	preview_layer.position = (viewport_size - layer_size) / 2
+	var scale_factor: float = min(viewport_size.x / layer_size.x, viewport_size.y / layer_size.y) * 0.8
+	preview_layer.scale = Vector2.ONE * scale_factor
+
+	preview_layer.position = (viewport_size - layer_size * scale_factor) / 2
 	
-	preview_region = Rect2(preview_layer.position, layer_size)
+	preview_region = Rect2(preview_layer.position, layer_size * scale_factor)
 	
 	
 func _get_drag_data(_at_position: Vector2) -> Variant:

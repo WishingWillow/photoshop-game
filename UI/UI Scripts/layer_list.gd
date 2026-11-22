@@ -2,6 +2,11 @@ extends VBoxContainer
 
 @export var layer_entry_scene: PackedScene
 
+const CONTEXT_MENU_SCENE = preload("res://UI/Context_Menu.tscn")
+
+var selected_layer: PanelContainer
+var active_menu: PopupMenu
+
 func populate_layers(layers: Array[Layer]) -> void:
 	# Clear existing entries
 	for child in get_children():
