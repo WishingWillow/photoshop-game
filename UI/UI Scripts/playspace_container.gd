@@ -1,17 +1,8 @@
-class_name UILogic
+class_name PlayspaceContainer
 extends SubViewportContainer
 
 @onready var subviewport: SubViewport = $SubViewport
 @onready var playspace: Playspace = $SubViewport/Playspace
-
-@export var context_menu_scene: PackedScene
-
-
-static var instance : UILogic
-
-
-func _ready() -> void:
-	instance = self
 
 
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
@@ -30,9 +21,6 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 
 
 func _drop_data(at_position: Vector2, data: Variant) -> void:
-	if not _can_drop_data(at_position, data):
-		return
-	
 	var layer_data: LayerData = data["layer_data"]
 	
 	var placed_layer := Layer.new()

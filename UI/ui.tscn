@@ -1,9 +1,8 @@
 [gd_scene format=3 uid="uid://ciu5q2n43mg0o"]
 
 [ext_resource type="Script" uid="uid://byg5iul8343db" path="res://UI/UI Scripts/game_ui.gd" id="1_2fwl4"]
-[ext_resource type="Script" uid="uid://8tqddc3nw5e5" path="res://UI/UI Scripts/playspace_ui_logic.gd" id="4_3sbvi"]
+[ext_resource type="Script" uid="uid://8tqddc3nw5e5" path="res://UI/UI Scripts/playspace_container.gd" id="4_3sbvi"]
 [ext_resource type="PackedScene" uid="uid://cke8jgko6uqrn" path="res://playspace.tscn" id="4_hat8c"]
-[ext_resource type="PackedScene" uid="uid://df2w85qbujn3x" path="res://UI/Context_Menu.tscn" id="5_nm1m0"]
 [ext_resource type="Script" uid="uid://f7chq1kajgdl" path="res://UI/UI Scripts/layer_list.gd" id="8_cbfhl"]
 [ext_resource type="PackedScene" uid="uid://by8h4cdi166l8" path="res://UI/LayerEntry.tscn" id="9_4fiuh"]
 
@@ -82,7 +81,6 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 4.0
 stretch = true
 script = ExtResource("4_3sbvi")
-context_menu_scene = ExtResource("5_nm1m0")
 
 [node name="SubViewport" type="SubViewport" parent="MarginContainer/VBoxContainer/HBoxContainer/SubViewportContainer" unique_id=1153488767]
 handle_input_locally = false
