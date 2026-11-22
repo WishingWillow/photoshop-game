@@ -18,6 +18,9 @@ static var notify_layer_placement : Signal = Util.create_static_signal(
 ## A layer's rectangle in playspace coordinates
 var rect : Rect2:
 	get: return Rect2(playspace_coords, data.size)
+	set(value):
+		playspace_coords = value.position
+		data.size = value.size
 
 var playspace_coords := Vector2i.ZERO
 
@@ -31,6 +34,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		mouse_down = false
 		print("mouse release")
 	if event.is_action_released("drag"):
+		# TODO: don't let a layer go past the bounds of the playspace
 		mouse_down = false
 		Mouse.unfollow_mouse(self)
 		snap_to_playspace()

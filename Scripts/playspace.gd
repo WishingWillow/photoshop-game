@@ -1,4 +1,3 @@
-@tool
 class_name Playspace
 extends Node2D
 
@@ -14,24 +13,20 @@ static func add_layer(layer : AbstractLayer) -> void:
 	layer.snap_to_playspace()
 
 
-## set size when entering tree so children have access to it on _ready
-func _enter_tree() -> void:
+func initialize() -> void:
 	playspace_size = get_viewport_rect().size * PLAYSPACE_SCALE
-	instance = self
-
-
-func _ready() -> void:
 	# grid should draw under all other elements
 	z_index = Consts.ZIndex.BACKGROUND
 	z_as_relative = false
 	queue_redraw()
 
+func _ready() -> void:
+	instance = self
+	call_deferred("initialize")
 
-func _draw() -> void:
-	# playspace size should be recalculated when drawing to display in the editor properly
-	if Engine.is_editor_hint():
-		playspace_size = get_viewport_rect().size * PLAYSPACE_SCALE
-	
+
+
+func _draw() -> void:	
 	var row_flip := true
 	var grid_square_size := Util.scale_vec_to_unit_size(Vector2.ONE)
 	for row in range(0, playspace_size.y + Consts.UNIT_SCALE, Consts.UNIT_SCALE):

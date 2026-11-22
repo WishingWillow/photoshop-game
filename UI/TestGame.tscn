@@ -1,11 +1,23 @@
 [gd_scene format=3 uid="uid://6av2t4uihtlw"]
 
-[ext_resource type="Script" uid="uid://dy53x67upeo3d" path="res://UI/UI Scripts/test_game.gd" id="1_vwbxs"]
 [ext_resource type="PackedScene" uid="uid://b7ohq73rvyklc" path="res://Tests/chain_test.tscn" id="2_a285m"]
 [ext_resource type="PackedScene" uid="uid://ciu5q2n43mg0o" path="res://UI/ui.tscn" id="2_vwbxs"]
 
+[sub_resource type="GDScript" id="GDScript_viduf"]
+script/source = "extends Node2D
+
+@onready var test_scene = $test
+@onready var layer_list = $CanvasLayer/UI/MarginContainer/VBoxContainer/HBoxContainer/LayerBar/ScrollContainer/LayerList
+
+func _ready() -> void:
+	print(\"Game scene loaded!\")
+	print(\"Available layers: \", test_scene.layers.size())
+
+	layer_list.populate_layers(test_scene.layers)
+"
+
 [node name="TestGame" type="Node2D" unique_id=551869463]
-script = ExtResource("1_vwbxs")
+script = SubResource("GDScript_viduf")
 
 [node name="test" parent="." unique_id=2127906253 instance=ExtResource("2_a285m")]
 

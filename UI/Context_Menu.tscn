@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://df2w85qbujn3x"]
+
+[ext_resource type="Script" uid="uid://ryxmaljb8pav" path="res://UI/UI Scripts/layer_menu.gd" id="1_rimgc"]
+
+[node name="ContextMenu" type="PopupMenu" unique_id=1330774152]
+oversampling_override = 1.0
+visible = true
+item_count = 4
+item_0/text = "Rotate"
+item_0/id = 0
+item_1/text = "Mirror"
+item_1/id = 2
+item_2/text = "Slice"
+item_2/id = 1
+item_3/text = "Delete"
+item_3/id = 3
+script = ExtResource("1_rimgc")
+
+[node name="RotateMenu" type="PopupMenu" parent="." unique_id=244933969]
+oversampling_override = 1.0
+item_count = 3
+item_0/text = "90°"
+item_0/id = 1
+item_1/text = "180°"
+item_1/id = 2
+item_2/text = "270°"
+item_2/id = 3
+
+[node name="MirrorMenu" type="PopupMenu" parent="." unique_id=1074009373]
+item_count = 4
+item_0/text = "x"
+item_0/id = 0
+item_1/text = "y"
+item_1/id = 1
+item_2/text = "y = x"
+item_2/id = 2
+item_3/text = "y = -x"
+item_3/id = 3
