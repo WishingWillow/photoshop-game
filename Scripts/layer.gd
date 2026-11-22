@@ -208,22 +208,22 @@ enum {X, Y, Y_X, _Y_X}
 
 func mirror(axis : int) -> void:
 	var mirror_transform : Transform2D
-	var new_origin := adjusted_node.transform.origin
+	var new_origin : Vector2
 	var position_adjustment := Vector2i.ZERO
 	match axis:
 		Y:
 			position_adjustment = layer_vertices[3]
-			new_origin += Util.scale_vec_to_unit_size(position_adjustment)
+			new_origin = Util.scale_vec_to_unit_size(position_adjustment)
 			mirror_transform = Transform2D(-transform.x, transform.y, new_origin)
 		X:
 			position_adjustment = layer_vertices[1]
-			new_origin += Util.scale_vec_to_unit_size(position_adjustment)
+			new_origin = Util.scale_vec_to_unit_size(position_adjustment)
 			mirror_transform = Transform2D(transform.x, -transform.y, new_origin)
 		# I believe intuition is that y=x and y=-x look reversed from godot's coordinate system
 		# (y axis usually faces up instead of down)
 		Y_X:
 			position_adjustment = layer_vertices[2]
-			new_origin += Util.scale_vec_to_unit_size(position_adjustment)
+			new_origin = Util.scale_vec_to_unit_size(position_adjustment)
 			mirror_transform = Transform2D(-transform.y, -transform.x, new_origin)
 		_Y_X:
 			mirror_transform = Transform2D(transform.y, transform.x, new_origin)
