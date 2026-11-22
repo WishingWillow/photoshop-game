@@ -69,6 +69,12 @@ func parse_data() -> void:
 	mouse_area.mouse_exited.connect(func(): mouse_over = false)
 	adjusted_node.add_child(mouse_area)
 	
+	# set layer z_index for pick ordering purposes. The z index should be the highest available
+	# in the layer (roads over layers)
+	z_as_relative = false
+	z_index = data.paths.reduce(func(highest_index : int, path : PathData): 
+		return path.type if path.type > highest_index else highest_index, 0 )
+	
 	# add adjusted node
 	add_child(adjusted_node)
 
