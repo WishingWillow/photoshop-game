@@ -151,7 +151,29 @@ func turn(turns : int) -> void:
 	rect.size = abs(rect.size.rotated(angle))
 
 
-enum {X, Y}
+enum {X, Y, Y_X}
+
+
+func mirror(axis : int) -> void:
+	var mirror_transform : Transform2D
+	var new_origin := adjusted_node.transform.origin
+	match axis:
+		X:
+			new_origin += Util.scale_vec_to_unit_size(layer_vertices[3])
+			mirror_transform = Transform2D(-transform.x, transform.y, new_origin)
+		Y:
+			new_origin += Util.scale_vec_to_unit_size(layer_vertices[1])
+			mirror_transform = Transform2D(transform.x, -transform.y, new_origin)
+		# I believe intuition is that y=x and y=-x look reversed from godot's coordinate system
+		# (y axis usually faces up instead of down)
+		Y_X:
+			new_origin += Util.scale_vec_to_unit_size(layer_vertices[2])
+			mirror_transform = Transform2D(-transform.y, -transform.x, new_origin)
+		-Y_X:
+			mirror_transform = Transform2D(transform.y, transform.x, new_origin)
+	adjusted_node.transform = adjusted_node.transform * mirror_transform
+
+
 func slice(axis : int, value : int) -> Layer:
 	if not check_valid_slice(axis, value): return null
 	
