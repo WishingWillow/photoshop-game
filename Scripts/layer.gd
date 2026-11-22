@@ -7,8 +7,6 @@ extends AbstractLayer
 ## An array of segments that's populated using the data in data
 var path_segments : Array[PathSegment] = []
 
-@onready var outline := Line2D.new()
-
 ## A layer's position in a level should be of a layer's top left corner, 
 ## regardless of rotations/mirrors. All nodes will parent to this node whose transform 
 ## will be adjusted based on layer transformations to maintain visual consistency
@@ -57,27 +55,16 @@ func parse_data() -> void:
 	adjusted_node.queue_free()
 	adjusted_node = Node2D.new()
 	path_segments.clear()
-	outline = Line2D.new()
 	turned_state = 0
 	
 	# all data needs to be scaled by the UNIT_SCALE, otherwise objects may only be a few pixels
 	# wide
 	layer_vertices = Util.get_rectangle_vertices(data.size)
-	outline.points = Util.scale_vec_array_to_unit_size(layer_vertices)
 	for path_data : PathData in data.paths:
 		path_segments.append_array(path_data.create_segments(adjusted_node))
 	
-	#configure outline
-	Util.configure_line(outline)
-	outline.closed = true
-	outline.default_color = Color.DIM_GRAY
-	# make sure outline renders behind wires
-	outline.z_index = Consts.ZIndex.LAYER_BORDER
-	outline.z_as_relative = false
-	adjusted_node.add_child(outline)
-	
 	# configure mouse detection
-	var mouse_area := Util.make_polygon_area_2d(outline.points)
+	var mouse_area := Util.make_polygon_area_2d(Util.scale_vec_array_to_unit_size(layer_vertices))
 	mouse_area.mouse_entered.connect(func(): mouse_over = true)
 	mouse_area.mouse_exited.connect(func(): mouse_over = false)
 	adjusted_node.add_child(mouse_area)
@@ -87,9 +74,6 @@ func parse_data() -> void:
 	z_as_relative = false
 	z_index = data.paths.reduce(func(highest_index : int, path : PathData): 
 		return path.type if path.type > highest_index else highest_index, 0 )
-	
-	# create areas for "slice mode", where the user can select axes to slice a layer
-	
 	
 	# add adjusted node
 	add_child(adjusted_node)
@@ -121,17 +105,21 @@ func _unhandled_input(event: InputEvent) -> void:
 				@warning_ignore("narrowing_conversion")
 				var candidate : int = line / Consts.UNIT_SCALE - rect.position[axis]
 				if check_valid_slice(axis, candidate):
-					print("mouse: ", mouse_pos, " axis: ", "X" if axis == X else "Y", " snap: ", line, " value: ", candidate, " VALID")
+					#print("mouse: ", mouse_pos, " axis: ", "X" if axis == X else "Y", " snap: ", line, " value: ", candidate, " VALID")
 					slice_candidate[axis] = candidate
 					slice_candidate[1-axis] = 0
 					break
-				print("mouse: ", mouse_pos, " axis: ", "X" if axis == X else "Y", " snap: ", line, " value: ", candidate)
+				#print("mouse: ", mouse_pos, " axis: ", "X" if axis == X else "Y", " snap: ", line, " value: ", candidate)
 		queue_redraw()
 	
 	super(event)
 
 
 func _draw() -> void:
+	# draw box
+	draw_style_box(
+		preload("res://Assets/Resources/layer_box.tres"), 
+		Rect2(rect.position, Util.scale_vec_to_unit_size(rect.size)))
 	if not slice_mode: return
 	var axis : int = -1
 	for which_axis in [X,Y]:
@@ -140,13 +128,13 @@ func _draw() -> void:
 			break
 	if axis < 0: return
 	var slice_value = slice_candidate[axis]
-	var start := Vector2i.ZERO
+	var start := Vector2.ONE * 0.05
 	var end : Vector2i = rect.size
 	start[axis] = slice_value
 	end[axis] = slice_value
-	start = Util.scale_vec_to_unit_size(start)
+	start = start * Consts.UNIT_SCALE
 	end = Util.scale_vec_to_unit_size(end)
-	draw_line(start, end, Color.WHITE, 5)
+	draw_line(start, end, Color.WHITE, 2)
 
 
 func set_level_position(level : Level, pos : Vector2i) -> void:
@@ -211,7 +199,8 @@ func turn(turns : int) -> void:
 		end.set_level_position(level_position)
 	
 	# rotate the size of the playspace rectangle
-	rect.size = abs(rect.size.rotated(angle))
+	rect.size = round(abs(rect.size.rotated(angle)))
+	queue_redraw()
 
 
 enum {X, Y, Y_X, _Y_X}
