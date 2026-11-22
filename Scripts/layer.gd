@@ -69,8 +69,21 @@ func parse_data() -> void:
 	mouse_area.mouse_exited.connect(func(): mouse_over = false)
 	adjusted_node.add_child(mouse_area)
 	
+	# set layer z_index for pick ordering purposes. The z index should be the highest available
+	# in the layer (roads over layers)
+	z_as_relative = false
+	z_index = data.paths.reduce(func(highest_index : int, path : PathData): 
+		return path.type if path.type > highest_index else highest_index, 0 )
+	
 	# add adjusted node
 	add_child(adjusted_node)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if (!(mouse_over or mouse_down)): return
+	if (event.is_action_pressed("context_menu")):
+		LayerMenu.popup_menu(self)
+	super(event)
 
 
 func set_level_position(level : Level, pos : Vector2i) -> void:

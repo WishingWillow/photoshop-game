@@ -31,6 +31,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		mouse_down = false
 		print("mouse release")
 	if event.is_action_released("drag"):
+		# TODO: don't let a layer go past the bounds of the playspace
 		mouse_down = false
 		Mouse.unfollow_mouse(self)
 		snap_to_playspace()

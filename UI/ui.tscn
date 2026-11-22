@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://ciu5q2n43mg0o"]
 
 [ext_resource type="Script" uid="uid://byg5iul8343db" path="res://UI/UI Scripts/game_ui.gd" id="1_2fwl4"]
+[ext_resource type="Script" uid="uid://8tqddc3nw5e5" path="res://UI/UI Scripts/playspace_container.gd" id="4_3sbvi"]
+[ext_resource type="PackedScene" uid="uid://cke8jgko6uqrn" path="res://playspace.tscn" id="4_hat8c"]
 [ext_resource type="Script" uid="uid://f7chq1kajgdl" path="res://UI/UI Scripts/layer_list.gd" id="8_cbfhl"]
 [ext_resource type="PackedScene" uid="uid://by8h4cdi166l8" path="res://UI/LayerEntry.tscn" id="9_4fiuh"]
 
@@ -11,6 +13,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 script = ExtResource("1_2fwl4")
 
 [node name="Background" type="ColorRect" parent="." unique_id=1185345327]
@@ -71,7 +74,21 @@ theme_override_constants/separation = 8
 script = ExtResource("8_cbfhl")
 layer_entry_scene = ExtResource("9_4fiuh")
 
-[node name="LevelView" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1166282176]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=884003186]
+texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 4.0
+stretch = true
+script = ExtResource("4_3sbvi")
+
+[node name="SubViewport" type="SubViewport" parent="MarginContainer/VBoxContainer/HBoxContainer/SubViewportContainer" unique_id=1153488767]
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+physics_object_picking = true
+physics_object_picking_sort = true
+physics_object_picking_first_only = true
+size = Vector2i(895, 591)
+render_target_update_mode = 4
+
+[node name="Playspace" parent="MarginContainer/VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport" unique_id=263223627 instance=ExtResource("4_hat8c")]
