@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://ciu5q2n43mg0o"]
 
-[ext_resource type="Script" uid="uid://byg5iul8343db" path="res://UI/UI Scripts/game_ui.gd" id="1_2fwl4"]
 [ext_resource type="Script" uid="uid://8tqddc3nw5e5" path="res://UI/UI Scripts/playspace_container.gd" id="4_3sbvi"]
 [ext_resource type="PackedScene" uid="uid://cke8jgko6uqrn" path="res://playspace.tscn" id="4_hat8c"]
 [ext_resource type="Script" uid="uid://f7chq1kajgdl" path="res://UI/UI Scripts/layer_list.gd" id="8_cbfhl"]
@@ -14,7 +13,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
-script = ExtResource("1_2fwl4")
 
 [node name="Background" type="ColorRect" parent="." unique_id=1185345327]
 z_index = -4096
