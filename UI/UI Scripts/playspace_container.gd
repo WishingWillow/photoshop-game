@@ -1,35 +1,15 @@
 class_name PlayspaceContainer
 extends SubViewportContainer
 
-@onready var subviewport: SubViewport = $SubViewport
-@onready var playspace: Playspace = $SubViewport/Playspace
-
 
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
-	if not data is Dictionary:
-		return false
-
-	if data.get("type") != "layer":
-		return false
-		
-	if not data.get("layer_data") is LayerData:
-		return false
-	
-	var entry = data.get("source_entry")
-	
-	return (is_instance_valid(entry) and entry is Control and not entry.is_queued_for_deletion())
+	return data is LayerData
 
 
-func _drop_data(at_position: Vector2, data: Variant) -> void:
-	var layer_data: LayerData = data["layer_data"]
+func _drop_data(_at_position: Vector2, data: Variant) -> void:
+	var layer_data := data as LayerData
 	
 	var placed_layer := Layer.new()
 	placed_layer.data = layer_data
-	placed_layer.position = container_to_playspace(at_position)
+	placed_layer.position = Playspace.instance.get_global_mouse_position()
 	Playspace.add_layer(placed_layer)
-
-
-func container_to_playspace(container_position: Vector2) -> Vector2:
-	var viewport_position: Vector2 = (container_position * Vector2(subviewport.size) / size)
-	
-	return (playspace.get_global_transform_with_canvas().affine_inverse() * viewport_position)

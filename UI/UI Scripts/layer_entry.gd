@@ -52,8 +52,4 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 	preview_image.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	set_drag_preview(preview_image)
 
-	return {
-		"type": "layer",
-		"layer_data": source_layer.data,
-		"source_entry": self
-	}
+	return source_layer.data
