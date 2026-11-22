@@ -25,8 +25,8 @@ func _ready() -> void:
 			layer.set_level_position(level, current_position + move.add_position)
 		if not move.turn == 0:
 			layer.turn(move.turn)
-		if not move.mirror == Move.Mirror.NONE:
-			assert(false, "mirror not supported right now")
+		if not move.mirror == -1:
+			layer.mirror(move.mirror)
 		
 		print ("checking level complete: ", level.check_complete())
 	

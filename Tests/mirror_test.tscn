@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://jyqtu7d3s1t5"]
+
+[ext_resource type="Script" uid="uid://jvawcp8u00m1" path="res://Tests/test_script.gd" id="1_rdypm"]
+[ext_resource type="Script" uid="uid://bnh2m3iwas8kl" path="res://Tests/move.gd" id="2_865jx"]
+[ext_resource type="Script" uid="uid://dp3hhgt553i2x" path="res://Scripts/layer.gd" id="3_dsf8e"]
+[ext_resource type="Script" uid="uid://d3caukbg170et" path="res://Scripts/Resource Definitions/path_data.gd" id="4_dr6mo"]
+[ext_resource type="Resource" uid="uid://cb83v08gjc3ya" path="res://Assets/Resources/Layers/layerB.tres" id="4_hgioc"]
+[ext_resource type="Script" uid="uid://ciogh5wk1jw2j" path="res://Scripts/Resource Definitions/integer_line.gd" id="5_g5tmp"]
+[ext_resource type="Script" uid="uid://blbxmua7tt4nf" path="res://Scripts/Resource Definitions/layer_data.gd" id="6_xn2ri"]
+[ext_resource type="Script" uid="uid://dgcvil2fki4os" path="res://Scripts/level.gd" id="9_pwo31"]
+[ext_resource type="PackedScene" uid="uid://cke8jgko6uqrn" path="res://playspace.tscn" id="9_rdypm"]
+
+[sub_resource type="Resource" id="Resource_f4o6h"]
+script = ExtResource("2_865jx")
+layer_path = NodePath("Layer1")
+mirror = 1
+metadata/_custom_type_script = "uid://bnh2m3iwas8kl"
+
+[sub_resource type="Resource" id="Resource_hgioc"]
+script = ExtResource("2_865jx")
+layer_path = NodePath("Layer1")
+slice_x = 1
+metadata/_custom_type_script = "uid://bnh2m3iwas8kl"
+
+[sub_resource type="Resource" id="Resource_0xe2g"]
+script = ExtResource("5_g5tmp")
+points = Array[Vector2i]([Vector2i(0, 2), Vector2i(1, 2)])
+metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
+
+[sub_resource type="Resource" id="Resource_6smp3"]
+script = ExtResource("5_g5tmp")
+points = Array[Vector2i]([Vector2i(4, 1), Vector2i(5, 1)])
+metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
+
+[sub_resource type="Resource" id="Resource_dhbt7"]
+script = ExtResource("4_dr6mo")
+segments = Array[ExtResource("5_g5tmp")]([SubResource("Resource_0xe2g"), SubResource("Resource_6smp3")])
+metadata/_custom_type_script = "uid://d3caukbg170et"
+
+[sub_resource type="Resource" id="Resource_0ggpj"]
+script = ExtResource("6_xn2ri")
+size = Vector2i(5, 3)
+paths = Array[ExtResource("4_dr6mo")]([SubResource("Resource_dhbt7")])
+metadata/_custom_type_script = "uid://blbxmua7tt4nf"
+
+[node name="test" type="Node2D" unique_id=2127906253 node_paths=PackedStringArray("level", "layers")]
+script = ExtResource("1_rdypm")
+level = NodePath("Level")
+layers = [NodePath("Layer1")]
+moves = Array[ExtResource("2_865jx")]([SubResource("Resource_f4o6h"), SubResource("Resource_hgioc")])
+
+[node name="Layer1" type="Node2D" parent="." unique_id=577652057]
+script = ExtResource("3_dsf8e")
+data = ExtResource("4_hgioc")
+metadata/_custom_type_script = "uid://dp3hhgt553i2x"
+
+[node name="Level" type="Node2D" parent="." unique_id=171202069]
+script = ExtResource("9_pwo31")
+data = SubResource("Resource_0ggpj")
+metadata/_custom_type_script = "uid://dgcvil2fki4os"
+
+[node name="Playspace" parent="." unique_id=263223627 instance=ExtResource("9_rdypm")]

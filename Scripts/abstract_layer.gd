@@ -18,6 +18,9 @@ static var notify_layer_placement : Signal = Util.create_static_signal(
 ## A layer's rectangle in playspace coordinates
 var rect : Rect2:
 	get: return Rect2(playspace_coords, data.size)
+	set(value):
+		playspace_coords = value.position
+		data.size = value.size
 
 var playspace_coords := Vector2i.ZERO
 

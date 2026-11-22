@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="LayerData" format=3 uid="uid://c2ub8r2srt837"]
+
+[ext_resource type="Script" uid="uid://d3caukbg170et" path="res://Scripts/Resource Definitions/path_data.gd" id="1_okji0"]
+[ext_resource type="Script" uid="uid://blbxmua7tt4nf" path="res://Scripts/Resource Definitions/layer_data.gd" id="2_08t14"]
+[ext_resource type="Script" uid="uid://ciogh5wk1jw2j" path="res://Scripts/Resource Definitions/integer_line.gd" id="2_cnvf7"]
+
+[sub_resource type="Resource" id="Resource_4opr6"]
+script = ExtResource("2_cnvf7")
+points = Array[Vector2i]([Vector2i(1, 0), Vector2i(1, 2)])
+metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
+
+[sub_resource type="Resource" id="Resource_xpyst"]
+script = ExtResource("2_cnvf7")
+points = Array[Vector2i]([Vector2i(7, 5), Vector2i(7, 7)])
+metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
+
+[sub_resource type="Resource" id="Resource_wu4dj"]
+script = ExtResource("1_okji0")
+segments = Array[ExtResource("2_cnvf7")]([SubResource("Resource_4opr6"), SubResource("Resource_xpyst")])
+metadata/_custom_type_script = "uid://d3caukbg170et"
+
+[sub_resource type="Resource" id="Resource_aresc"]
+script = ExtResource("2_cnvf7")
+points = Array[Vector2i]([Vector2i(0, 4)])
+metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
+
+[sub_resource type="Resource" id="Resource_d4xjc"]
+script = ExtResource("2_cnvf7")
+points = Array[Vector2i]([Vector2i(4, 2), Vector2i(6, 2)])
+metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
+
+[sub_resource type="Resource" id="Resource_u0tl2"]
+script = ExtResource("2_cnvf7")
+points = Array[Vector2i]([Vector2i(10, 6)])
+metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
+
+[sub_resource type="Resource" id="Resource_u2yel"]
+script = ExtResource("1_okji0")
+type = 1
+segments = Array[ExtResource("2_cnvf7")]([SubResource("Resource_aresc"), SubResource("Resource_d4xjc"), SubResource("Resource_u0tl2")])
+metadata/_custom_type_script = "uid://d3caukbg170et"
+
+[resource]
+script = ExtResource("2_08t14")
+size = Vector2i(10, 7)
+paths = Array[ExtResource("1_okji0")]([SubResource("Resource_wu4dj"), SubResource("Resource_u2yel")])
+metadata/_custom_type_script = "uid://blbxmua7tt4nf"

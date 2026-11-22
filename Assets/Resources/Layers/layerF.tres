@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="LayerData" format=3 uid="uid://xua62uqltmqv"]
+
+[ext_resource type="Script" uid="uid://d3caukbg170et" path="res://Scripts/Resource Definitions/path_data.gd" id="1_g5i5q"]
+[ext_resource type="Script" uid="uid://ciogh5wk1jw2j" path="res://Scripts/Resource Definitions/integer_line.gd" id="2_ghujx"]
+[ext_resource type="Script" uid="uid://blbxmua7tt4nf" path="res://Scripts/Resource Definitions/layer_data.gd" id="2_p3nup"]
+
+[sub_resource type="Resource" id="Resource_v6mo0"]
+script = ExtResource("2_ghujx")
+points = Array[Vector2i]([Vector2i(2, 0), Vector2i(2, 2), Vector2i(0, 2)])
+metadata/_custom_type_script = "uid://ciogh5wk1jw2j"
+
+[sub_resource type="Resource" id="Resource_mfwd7"]
+script = ExtResource("1_g5i5q")
+segments = Array[ExtResource("2_ghujx")]([SubResource("Resource_v6mo0")])
+metadata/_custom_type_script = "uid://d3caukbg170et"
+
+[resource]
+script = ExtResource("2_p3nup")
+size = Vector2i(3, 3)
+paths = Array[ExtResource("1_g5i5q")]([SubResource("Resource_mfwd7")])
+metadata/_custom_type_script = "uid://blbxmua7tt4nf"
