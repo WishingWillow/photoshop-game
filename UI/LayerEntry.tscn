@@ -13,6 +13,7 @@ script = ExtResource("1_yleoj")
 layout_mode = 2
 
 [node name="PreviewContainer" type="SubViewportContainer" parent="MarginContainer" unique_id=1041915453]
+texture_filter = 1
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 stretch = true
@@ -20,6 +21,7 @@ stretch = true
 [node name="PreviewViewport" type="SubViewport" parent="MarginContainer/PreviewContainer" unique_id=2077268615]
 transparent_bg = true
 handle_input_locally = false
+canvas_item_default_texture_filter = 0
 size = Vector2i(200, 200)
 render_target_update_mode = 4
 
