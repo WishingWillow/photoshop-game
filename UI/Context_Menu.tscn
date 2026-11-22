@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://df2w85qbujn3x"]
 
-[ext_resource type="Script" uid="uid://ryxmaljb8pav" path="res://UI/UI Scripts/context_menu.gd" id="1_rimgc"]
+[ext_resource type="Script" uid="uid://ryxmaljb8pav" path="res://UI/UI Scripts/layer_menu.gd" id="1_rimgc"]
 
 [node name="ContextMenu" type="PopupMenu" unique_id=1330774152]
 oversampling_override = 1.0

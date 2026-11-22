@@ -32,7 +32,7 @@ func _ready() -> void:
 	id_pressed.connect(
 		func(id: int) -> void:
 			if id == 1:
-				print("Slice!")
+				clicked_layer.slice_mode = true
 	)
 
 func popup_menu(layer: Layer) -> void:

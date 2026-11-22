@@ -28,6 +28,12 @@ var level_transform : RemoteTransform2D
 ## the number of rotations (turns) applied to the layer [0-3]
 var turned_state : int = 0
 
+var slice_mode : bool = false:
+	set(value):
+		slice_mode = value
+		queue_redraw()
+var slice_candidate : Array[int] = [0, 0]
+
 
 ## using create instead of _init because there are layers with exported properties set in the editor
 ## that _init would override
@@ -77,15 +83,65 @@ func parse_data() -> void:
 	z_index = data.paths.reduce(func(highest_index : int, path : PathData): 
 		return path.type if path.type > highest_index else highest_index, 0 )
 	
+	# create areas for "slice mode", where the user can select axes to slice a layer
+	
+	
 	# add adjusted node
 	add_child(adjusted_node)
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if (!(mouse_over or mouse_down)): return
+	if (!(mouse_over or mouse_down)): 
+		if event.is_action_pressed("select"): slice_mode = false
+		return
 	if (event.is_action_pressed("context_menu")):
-		LayerMenu.get_script().popup_menu(self) #TODO: verify get_script works as intended
+		LayerMenu.popup_menu(self) 
+	
+	if slice_mode:
+		if event.is_action_pressed("select"):
+			for axis in [X,Y]:
+				if slice_candidate[axis] != 0:
+					slice(axis, slice_candidate[axis])
+					slice_candidate[axis] = 0
+					slice_mode = false
+					break
+		
+		const AXIS_EPSILON : int = 15
+		var mouse_pos := Playspace.instance.get_global_mouse_position()
+		# reset candidates
+		slice_candidate = [0,0]
+		for axis in [X,Y]:
+			var line := snappedf(mouse_pos[axis], Consts.UNIT_SCALE)
+			if abs(mouse_pos[axis] - line) <= AXIS_EPSILON:
+				@warning_ignore("narrowing_conversion")
+				var candidate : int = line / Consts.UNIT_SCALE - rect.position[axis]
+				if check_valid_slice(axis, candidate):
+					print("mouse: ", mouse_pos, " axis: ", "X" if axis == X else "Y", " snap: ", line, " value: ", candidate, " VALID")
+					slice_candidate[axis] = candidate
+					slice_candidate[1-axis] = 0
+					break
+				print("mouse: ", mouse_pos, " axis: ", "X" if axis == X else "Y", " snap: ", line, " value: ", candidate)
+		queue_redraw()
+	
 	super(event)
+
+
+func _draw() -> void:
+	if not slice_mode: return
+	var axis : int = -1
+	for which_axis in [X,Y]:
+		if slice_candidate[which_axis] != 0:
+			axis = which_axis
+			break
+	if axis < 0: return
+	var slice_value = slice_candidate[axis]
+	var start := Vector2i.ZERO
+	var end : Vector2i = rect.size
+	start[axis] = slice_value
+	end[axis] = slice_value
+	start = Util.scale_vec_to_unit_size(start)
+	end = Util.scale_vec_to_unit_size(end)
+	draw_line(start, end, Color.WHITE, 5)
 
 
 func set_level_position(level : Level, pos : Vector2i) -> void:
@@ -275,14 +331,17 @@ func slice(axis : int, value : int) -> Layer:
 			var start_in_origin : bool = origin_slice_rect.has_point(start_point)
 			var end_in_origin : bool = origin_slice_rect.has_point(end_point)
 			
-			# for the first rect, look ahead to see which point to push
+			# for the first rect, look ahead (if possible) to see which point to push
 			if i == 0:
-				var next_rect := segment.segment_rects[i+1]
-				var next_points : Array[Vector2i] = [
-					round(next_rect.position),
-					round(next_rect.position + next_rect.size)
-				]
-				point_to_push = start_point if !next_points.has(start_point) else end_point
+				if segment.segment_rects.size() == 1:
+					point_to_push = start_point
+				else:
+					var next_rect := segment.segment_rects[i+1]
+					var next_points : Array[Vector2i] = [
+						round(next_rect.position),
+						round(next_rect.position + next_rect.size)
+					]
+					point_to_push = start_point if !next_points.has(start_point) else end_point
 			
 			if start_point == point_to_push:
 				if start_in_origin: origin_line.points.append(start_point)
