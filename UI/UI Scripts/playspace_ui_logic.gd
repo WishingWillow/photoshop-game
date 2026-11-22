@@ -6,15 +6,12 @@ extends SubViewportContainer
 @export var context_menu_scene: PackedScene
 
 var placed_layers: Array[Layer] = []
-var moving_layer: Layer = null
-var grab_offset: Vector2 = Vector2.ZERO
-var original_position: Vector2 = Vector2.ZERO
 
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 	if not data is Dictionary:
 		return false
 
-	if data.get("type") != "circuit_layer":
+	if data.get("type") != "layer":
 		return false
 		
 	if not data.get("layer_data") is LayerData:
@@ -30,23 +27,14 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 		return
 	
 	var layer_data: LayerData = data["layer_data"]
-
-	var playspace_position: Vector2 = container_to_playspace(at_position)
-
-	var grid_position := Vector2i(
-		roundi(playspace_position.x / Consts.UNIT_SCALE),
-		roundi(playspace_position.y / Consts.UNIT_SCALE)
-	)
-
+	
 	var placed_layer := Layer.new()
 	placed_layer.data = layer_data
-	playspace.add_child(placed_layer)
+	placed_layer.position = container_to_playspace(at_position)
+	Playspace.add_layer(placed_layer)
 	placed_layers.append(placed_layer)
 	
-	placed_layer.position = (Vector2(grid_position) * Consts.UNIT_SCALE)
-	
-	#var source_entry: Control = data["source_entry"]
-	#source_entry.queue_free()
+
 
 func container_to_playspace(container_position: Vector2) -> Vector2:
 	var viewport_position: Vector2 = (container_position * Vector2(subviewport.size) / size)

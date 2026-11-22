@@ -53,7 +53,7 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 	set_drag_preview(preview_image)
 
 	return {
-		"type": "circuit_layer",
+		"type": "layer",
 		"layer_data": source_layer.data,
 		"source_entry": self
 	}
