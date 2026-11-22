@@ -27,7 +27,7 @@ const PathTexture : Dictionary[PathType, Texture2D] = {
 
 const CapColors : Dictionary[PathType, Color] = {
 	PathType.ROAD : Color(0.105, 0.099, 0.16, 1.0),
-	PathType.RAIL : Color(0.105, 0.099, 0.16, 1.0)
+	PathType.RAIL : Color(0.771, 0.532, 0.467, 1.0)
 }
 
 const GridColors : Dictionary[String, Color] = {

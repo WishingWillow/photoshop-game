@@ -119,7 +119,7 @@ func _draw() -> void:
 	# draw box
 	draw_style_box(
 		preload("res://Assets/Resources/layer_box.tres"), 
-		Rect2(rect.position, Util.scale_vec_to_unit_size(rect.size)))
+		Rect2(Vector2.ZERO, Util.scale_vec_to_unit_size(rect.size)))
 	if not slice_mode: return
 	var axis : int = -1
 	for which_axis in [X,Y]:

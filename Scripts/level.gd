@@ -126,6 +126,7 @@ func caps_connected(start : PathCap, end : PathCap) -> bool:
 	# iterate through the shared position caps and see if their sibling is connected to the end cap
 	for cap : PathCap in position_share:
 		if cap == start: continue
+		if cap == end: return true
 		if caps_connected(cap.sibling, end): return true
 	
 	# end cap wasn't found, return false
