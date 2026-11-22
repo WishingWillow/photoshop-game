@@ -4,12 +4,13 @@ extends Camera2D
 var target_zoom : float = 1.0
 
 var mouse_pos : Vector2: 
-	get: return get_viewport().get_mouse_position()
+	get: return Playspace.instance.get_global_mouse_position()
 var drag_pos : Vector2
 var dragging : bool = false
 var mouse_pos_before_zoom : Vector2
 const DEFAULT_ZOOM_MOD : float = 0.1
-const MAX_ZOOM : float = 10.0
+const MAX_ZOOM : float = 2.0
+const MIN_ZOOM : float = 0.6
 
 
 func lerp_zoom_in() -> void:
@@ -21,7 +22,7 @@ func lerp_zoom_out() -> void:
 
 
 func lerp_zoom(mod_diff) -> void:
-	target_zoom = clampf((1 + mod_diff) * target_zoom, 1.0, MAX_ZOOM)  
+	target_zoom = clampf((1 + mod_diff) * target_zoom, MIN_ZOOM, MAX_ZOOM)  
 
 
 func bounded_drag(mouse_delta : Vector2) -> void:
@@ -65,6 +66,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		drag_pos= mouse_pos
 	if event.is_action_released("camera_drag_mod"): 
 		dragging = false
+	
+	if event.is_action_pressed("zoom_in"):
+		lerp_zoom_in()
+	if event.is_action_pressed("zoom_out"):
+		lerp_zoom_out()
 	
 	if dragging and event is InputEventMouseMotion:
 		bounded_drag(mouse_pos - drag_pos)

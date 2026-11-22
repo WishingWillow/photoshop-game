@@ -4,7 +4,7 @@ extends Node
 
 ## The layer grid is different from the game canvas grid. UNIT_SCALE is how many canvas units
 ## equal to one layer unit.
-const UNIT_SCALE := 100
+const UNIT_SCALE := 60
 
 ## How wide the "wires" are in game canvas units.
 const WIRE_WIDTH := 5
