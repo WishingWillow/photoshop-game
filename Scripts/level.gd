@@ -24,11 +24,27 @@ class CapPair:
 var level_caps : Array[CapPair]
 
 
+static func create(data_in : LayerData) -> Level:
+	var layer := Level.new()
+	layer.data = data_in
+	return layer
+
+
 func _ready() -> void:
 	_init_segments()
 	_init_caps()
 	
 	notify_layer_placement.connect(check_layer_intersection)
+	
+	z_as_relative = false
+	z_index = Consts.ZIndex.LEVEL_BACKGROUND
+
+
+func _draw() -> void:
+	# draw box
+	draw_style_box(
+		preload("res://Assets/Resources/level_box.tres"), 
+		Rect2(Vector2.ZERO, Util.scale_vec_to_unit_size(rect.size)))
 
 
 func check_layer_intersection(layer : AbstractLayer) -> void:
