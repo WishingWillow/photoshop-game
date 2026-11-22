@@ -4,6 +4,7 @@
 
 [node name="ContextMenu" type="PopupMenu" unique_id=1330774152]
 oversampling_override = 1.0
+visible = true
 item_count = 3
 item_0/text = "Rotate"
 item_0/id = 0

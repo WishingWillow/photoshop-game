@@ -3,6 +3,7 @@ extends PopupMenu
 var clicked_layer : Layer
 
 func _ready() -> void:
+	visible = false
 	var rotate_menu: PopupMenu = get_node("RotateMenu")
 	var mirror_menu: PopupMenu = get_node("MirrorMenu")
 	set_item_submenu_node(0, rotate_menu)

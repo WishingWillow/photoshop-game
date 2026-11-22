@@ -123,6 +123,7 @@ func register_layer(layer : Layer) -> void:
 		path_caps.get_or_add(segment.type, []).append(segment.start_cap)
 		path_caps[segment.type].append(segment.end_cap)
 	layers.append(layer)
+	layer.registered_with_level = self
 	print("registered ", layer)
 
 
@@ -133,4 +134,5 @@ func unregister_layer(layer : Layer) -> void:
 		path_caps[segment.type].erase(segment.start_cap)
 		path_caps[segment.type].erase(segment.end_cap)
 	layers.erase(layer)
+	layer.registered_with_level = null
 	print("unregistered ", layer)

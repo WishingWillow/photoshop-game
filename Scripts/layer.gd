@@ -19,6 +19,8 @@ var layer_vertices : Array[Vector2i]
 ## Layer's position in a level relative to the level's origin
 var level_position : Vector2i
 
+var registered_with_level : Level = null
+
 ## Layers move relative to a level, so a layer's position is controlled by a remote transform
 ## parented to the level
 var level_transform : RemoteTransform2D
@@ -82,7 +84,7 @@ func parse_data() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if (!(mouse_over or mouse_down)): return
 	if (event.is_action_pressed("context_menu")):
-		LayerMenu.popup_menu(self)
+		LayerMenu.get_script().popup_menu(self) #TODO: verify get_script works as intended
 	super(event)
 
 
@@ -157,21 +159,42 @@ enum {X, Y, Y_X}
 func mirror(axis : int) -> void:
 	var mirror_transform : Transform2D
 	var new_origin := adjusted_node.transform.origin
+	var position_adjustment := Vector2i.ZERO
 	match axis:
-		X:
-			new_origin += Util.scale_vec_to_unit_size(layer_vertices[3])
-			mirror_transform = Transform2D(-transform.x, transform.y, new_origin)
 		Y:
-			new_origin += Util.scale_vec_to_unit_size(layer_vertices[1])
+			position_adjustment = layer_vertices[3]
+			new_origin += Util.scale_vec_to_unit_size(position_adjustment)
+			mirror_transform = Transform2D(-transform.x, transform.y, new_origin)
+		X:
+			position_adjustment = layer_vertices[1]
+			new_origin += Util.scale_vec_to_unit_size(position_adjustment)
 			mirror_transform = Transform2D(transform.x, -transform.y, new_origin)
 		# I believe intuition is that y=x and y=-x look reversed from godot's coordinate system
 		# (y axis usually faces up instead of down)
 		Y_X:
-			new_origin += Util.scale_vec_to_unit_size(layer_vertices[2])
+			position_adjustment = layer_vertices[2]
+			new_origin += Util.scale_vec_to_unit_size(position_adjustment)
 			mirror_transform = Transform2D(-transform.y, -transform.x, new_origin)
 		-Y_X:
 			mirror_transform = Transform2D(transform.y, transform.x, new_origin)
 	adjusted_node.transform = adjusted_node.transform * mirror_transform
+	
+	# update mirror transform origin to relative playspace coordinates
+	mirror_transform.origin = Vector2(position_adjustment)
+	
+	# use mirror transform to update segment/cap/rect data
+	rect = rect * mirror_transform
+	for segment : PathSegment in path_segments:
+		var start := segment.start_cap
+		var end := segment.end_cap
+		start.layer_position = Vector2(start.layer_position) * mirror_transform
+		end.layer_position = Vector2(end.layer_position) * mirror_transform
+		start.set_level_position(level_position)
+		end.set_level_position(level_position)
+		for i : int in range(0, segment.segment_rects.size()):
+			segment.segment_rects[i] = segment.segment_rects[i] * mirror_transform
+			# round rectangle position after transform
+			segment.segment_rects[i].position = round(segment.segment_rects[i].position)
 
 
 func slice(axis : int, value : int) -> Layer:
@@ -230,6 +253,7 @@ func slice(axis : int, value : int) -> Layer:
 	
 	# now split and sort crossing segments
 	for segment : PathSegment in segments_to_slice:
+		# data structure setup
 		var origin_path := PathData.new()
 		var new_path := PathData.new()
 		var origin_line := IntegerLine.new()
@@ -240,36 +264,51 @@ func slice(axis : int, value : int) -> Layer:
 		new_path.segments.append(new_line)
 		new_path.type = segment.type
 		new_data.paths.append(new_path)
-		for seg_rect : Rect2 in segment.segment_rects:
+		
+		# the last rect can tell the next rect which of its points it should push
+		var point_to_push : Vector2i
+		for i in range(0, segment.segment_rects.size()):
+			var seg_rect := segment.segment_rects[i]
 			var start_point := Vector2i(round(seg_rect.position))
-			var start_in_origin : bool = false
-			if origin_slice_rect.has_point(start_point):
-				origin_line.points.append(start_point)
-				start_in_origin = true
-			elif new_slice_rect.has_point(start_point):
-				new_line.points.append(start_point - new_slice_position)
 			var end_point := Vector2i(round(seg_rect.position + seg_rect.size))
-			var end_in_origin : bool = false
-			if origin_slice_rect.has_point(end_point):
-				origin_line.points.append(end_point)
-				end_in_origin = true
-			elif new_slice_rect.has_point(end_point):
-				new_line.points.append(end_point - new_slice_position)
 			
-			# the segment crosses the slice boundary, so new points need to be made
-			if not start_in_origin == end_in_origin:
+			var start_in_origin : bool = origin_slice_rect.has_point(start_point)
+			var end_in_origin : bool = origin_slice_rect.has_point(end_point)
+			
+			# for the first rect, look ahead to see which point to push
+			if i == 0:
+				var next_rect := segment.segment_rects[i+1]
+				var next_points : Array[Vector2i] = [
+					round(next_rect.position),
+					round(next_rect.position + next_rect.size)
+				]
+				point_to_push = start_point if !next_points.has(start_point) else end_point
+			
+			if start_point == point_to_push:
+				if start_in_origin: origin_line.points.append(start_point)
+				else: new_line.points.append(start_point - new_slice_position)
+				# tell the next rect to push this rect's end point. This ensures no duplicates
+				# and good ordering
+				point_to_push = end_point
+			else:
+				if end_in_origin: origin_line.points.append(end_point)
+				else: new_line.points.append(end_point - new_slice_position)
+				point_to_push = start_point
+			
+			# if the segment intersects the slice line, create a new point and push to both slices
+			if start_in_origin != end_in_origin:
 				var new_point := start_point
 				new_point[axis] = value
-				# if the start is in the origin, then we should append to the origin line and
-				# prepend to the new line, and vice versa (I think)
-				if start_in_origin:
-					origin_line.points.push_back(new_point)
-					new_line.points.push_front(new_point - new_slice_position)
-				else:
-					origin_line.points.push_front(new_point)
-					new_line.points.push_back(new_point - new_slice_position)
+				origin_line.points.append(new_point)
+				new_line.points.append(new_point - new_slice_position)
+		# push the last point
+		if origin_slice_rect.has_point(point_to_push): origin_line.points.append(point_to_push)
+		else: new_line.points.append(point_to_push - new_slice_position)
+	
 	
 	data = origin_data
+	# remove all old segments/caps before re-parsing layer
+	if registered_with_level: registered_with_level.unregister_layer(self)
 	parse_data()
 	var new_layer := Layer.new()
 	new_layer.data = new_data
