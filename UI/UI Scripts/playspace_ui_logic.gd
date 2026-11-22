@@ -54,29 +54,26 @@ func container_to_playspace(container_position: Vector2) -> Vector2:
 	return (playspace.get_global_transform_with_canvas().affine_inverse() * viewport_position)
 	
 func _gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-			var mouse_pos: Vector2 = container_to_playspace(
-				event.position
-			)
-			for i in range(placed_layers.size() - 1, -1, -1):
-				var layer: Layer = placed_layers[i]
+	if event.is_action_pressed("context_menu"):
+		var mouse_pos: Vector2 = container_to_playspace(event.position)
+		for i in range(placed_layers.size() - 1, -1, -1):
+			var layer: Layer = placed_layers[i]
 				
-				if not is_instance_valid(layer):
-					continue
-				if layer.data == null:
-					continue
+			if not is_instance_valid(layer):
+				continue
+			if layer.data == null:
+				continue
 					
-				var local_pos: Vector2 = layer.adjusted_node.to_local(playspace.to_global(mouse_pos))
-				var layer_size: Vector2 = (Vector2(layer.data.size) * Consts.UNIT_SCALE)
-				var bounds := Rect2(Vector2.ZERO, layer_size)
+			var local_pos: Vector2 = layer.adjusted_node.to_local(playspace.to_global(mouse_pos))
+			var layer_size: Vector2 = (Vector2(layer.data.size) * Consts.UNIT_SCALE)
+			var bounds := Rect2(Vector2.ZERO, layer_size)
 				
-				if bounds.has_point(local_pos):
-					show_layer_context_menu(layer)
-					accept_event()
-					return
+			if bounds.has_point(local_pos):
+				show_layer_context_menu(layer)
+				accept_event()
+				return
 
-			return
+		return
 	if moving_layer != null:
 		return
 
@@ -149,11 +146,38 @@ func show_layer_context_menu(clicked_layer: Layer) -> void:
 
 	get_tree().root.add_child(menu_instance)
 
+	var rotate_menu: PopupMenu = menu_instance.get_node("RotateMenu")
+	var mirror_menu: PopupMenu = menu_instance.get_node("MirrorMenu")
+	menu_instance.set_item_submenu_node(0, rotate_menu)
+	menu_instance.set_item_submenu_node(2, mirror_menu)
+	
+	rotate_menu.id_pressed.connect(
+		func(degrees: int) -> void:
+			match degrees:
+				0:
+					clicked_layer.turn(1)
+				1:
+					clicked_layer.turn(2)
+				2:
+					clicked_layer.turn(3)
+)
+
+	mirror_menu.id_pressed.connect(
+		func(axis: int) -> void:
+			match axis:
+				0:
+					print("Mirror across X")
+				1:
+					print("Mirror across Y")
+				2:
+					print("Mirror across Y=X")
+)
+
 	menu_instance.id_pressed.connect(
 		func(id: int) -> void:
-			print("Selected option: ", id)
-			print("Target layer: ", clicked_layer.name)
-	)
+			if id == 1:
+				print("Slice!")
+)
 
 	menu_instance.popup_hide.connect(menu_instance.queue_free)
 
