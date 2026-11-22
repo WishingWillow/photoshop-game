@@ -29,11 +29,16 @@ func bounded_drag(mouse_delta : Vector2) -> void:
 
 
 func _ready() -> void:
+	var defer_defer : Callable = func(): call_deferred("setup_limits")
+	defer_defer.call_deferred()
+
+func setup_limits() -> void:
 	var playspace : Playspace = get_parent()
 	limit_right = playspace.playspace_size.x as int
 	limit_bottom = playspace.playspace_size.y as int
 	limit_top = 0
 	limit_left = 0
+
 
 func _process(delta: float) -> void:
 	if not is_equal_approx(zoom.x, target_zoom):
