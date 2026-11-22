@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://ciu5q2n43mg0o"]
 
+[ext_resource type="AudioStream" uid="uid://c5gi5jlnuuwqg" path="res://Assets/ost.wav" id="1_3sbvi"]
 [ext_resource type="Script" uid="uid://8tqddc3nw5e5" path="res://UI/UI Scripts/playspace_container.gd" id="4_3sbvi"]
 [ext_resource type="PackedScene" uid="uid://cke8jgko6uqrn" path="res://playspace.tscn" id="4_hat8c"]
 [ext_resource type="Script" uid="uid://f7chq1kajgdl" path="res://UI/UI Scripts/layer_list.gd" id="8_cbfhl"]
@@ -13,6 +14,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1864066535]
+stream = ExtResource("1_3sbvi")
+autoplay = true
 
 [node name="Background" type="ColorRect" parent="." unique_id=1185345327]
 z_index = -4096
@@ -50,8 +55,9 @@ text = "Placeholder Title"
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="LevelMenu" type="OptionButton" parent="MarginContainer/VBoxContainer/TopBarContainer" unique_id=1824949726]
+[node name="HSlider" type="HSlider" parent="MarginContainer/VBoxContainer/TopBarContainer" unique_id=2110301122]
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1098168033]
 layout_mode = 2

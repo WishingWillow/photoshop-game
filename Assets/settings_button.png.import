@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cl3ye444uinfp"
-path="res://.godot/imported/SliceButtonIcon.png-6dd3d61fa8c02ead3a934fa8f05f5a5d.ctex"
+uid="uid://tug4n7iywtad"
+path="res://.godot/imported/settings_button.png-e4738025b9969f3999d17fa8aba39ce7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://UI/Assets/SliceButtonIcon.png"
-dest_files=["res://.godot/imported/SliceButtonIcon.png-6dd3d61fa8c02ead3a934fa8f05f5a5d.ctex"]
+source_file="res://Assets/settings_button.png"
+dest_files=["res://.godot/imported/settings_button.png-e4738025b9969f3999d17fa8aba39ce7.ctex"]
 
 [params]
 
