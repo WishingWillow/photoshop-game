@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://df2w85qbujn3x"]
+
+[node name="ContextMenu" type="Control" unique_id=2135237841]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="PopupMenu" type="PopupMenu" parent="." unique_id=1178478344]
+oversampling_override = 1.0
+visible = true
+item_count = 3
+item_0/text = "Rotate"
+item_0/id = 0
+item_1/text = "Slice"
+item_1/id = 1
+item_2/text = "Mirror"
+item_2/id = 2
