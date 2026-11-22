@@ -73,6 +73,13 @@ func parse_data() -> void:
 	add_child(adjusted_node)
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	if (!(mouse_over or mouse_down)): return
+	if (event.is_action_pressed("context_menu")):
+		UILogic.show_layer_context_menu(self)
+	super(event)
+
+
 func set_level_position(level : Level, pos : Vector2i) -> void:
 	# check if the layer is part of the level. if it isn't, detach itself from another level
 	# if necessary and create a new transform
