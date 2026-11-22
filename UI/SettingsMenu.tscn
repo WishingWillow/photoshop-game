@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bo0yqon5e84nu"]
+
+[node name="SettingsMenu" type="PopupMenu" unique_id=1353884025]
+oversampling_override = 1.0
+size = Vector2i(121, 100)
+visible = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=245523217]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 117.0
+offset_bottom = 96.0
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=598108895]
+layout_mode = 2
+text = "Music Volume:"
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer" unique_id=780150085]
+layout_mode = 2
